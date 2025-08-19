@@ -46,9 +46,10 @@ struct SearchSheet: View {
                             .focused($isTextFieldFocused)
                     }
                     .padding(10)
-                    .background(Color.rgba(red: 127, green: 128, blue: 131, alpha: 0.2))
+//                    .background(Color.rgba(red: 127, green: 128, blue: 131, alpha: 0.2))
                     .cornerRadius(30)
-                    
+                    .glassEffect(.regular.tint(.rgba(red: 127, green: 128, blue: 132, alpha: 0.2)).interactive())
+
                     if isTextFieldFocused {
                         Button(action: {
                             isTextFieldFocused = false
@@ -57,9 +58,10 @@ struct SearchSheet: View {
                             Image(systemName: "xmark")
                                 .foregroundStyle(.black)
                                 .padding(13)
-                                .background(Color.rgba(red: 127, green: 128, blue: 131, alpha: 0.2))
+//                                .background(Color.rgba(red: 127, green: 128, blue: 131, alpha: 0.2))
                                 .clipShape(.circle)
                         }
+                        .glassEffect(.regular.tint(.rgba(red: 127, green: 128, blue: 132, alpha: 0.2)).interactive())
                     }
                 }
                 .padding(.horizontal, 20)
