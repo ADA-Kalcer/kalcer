@@ -37,7 +37,7 @@ struct PatungListView: View {
                         List {
                             ForEach(patungViewModel.patungs) { patung in
                                 HStack(spacing: 12) {
-                                    AsyncImage(url: URL(string: patung.image ?? "")) { image
+                                    AsyncImage(url: URL(string: patung.displayImageUrl ?? "")) { image
                                         in
                                         image
                                             .resizable()

@@ -10,6 +10,10 @@ import Supabase
 
 enum Table {
     static let patungs = "patungs"
+    static let patungMedia = "patung_media"
+    static let mediaType = "media_type"
+    static let materials = "materials"
+    static let patungMaterial = "patung_material"
 }
 
 class PatungViewModel: ObservableObject {
@@ -37,15 +41,23 @@ class PatungViewModel: ObservableObject {
             }
             
             let patungs: [Patung] = try await supabase
-                .from("patungs")
-                .select()
+                .from(Table.patungs)
+                .select("""
+                                  *,
+                                  patung_media(
+                                      id, patung_id, type, url,
+                                      media_type(id, type, created_at)
+                                  ),
+                                  patung_material(
+                                      id, patung_id, material_id,
+                                      materials(id, name, created_at, updated_at)
+                                  )
+                              """)
                 .order("created_at", ascending: false)
                 .execute()
                 .value
             
-            print("Patungs count: \(patungs.count) items")
-            print("Patungs list: \(patungs)")
-        
+            print("PatungViewModel.getPatungs() patung list: \(patungs)")
             
             DispatchQueue.main.async {
                 self.patungs = patungs
@@ -57,8 +69,51 @@ class PatungViewModel: ObservableObject {
                 self.isLoading = false
                 self.isError = error.localizedDescription
             }
-            print("PatungViewModel.getPatungs() patungs: \(patungs)")
             print("PatungViewModel.getPatungs() error: \(error.localizedDescription)")
+        }
+    }
+    
+    func getPatungById(_ id: UUID) async throws -> Patung? {
+        do {
+            let patung: Patung = try await supabase
+                .from(Table.patungs)
+                .select("""
+                              *,
+                              patung_media(
+                                  id, patung_id, type, url,
+                                  media_type(id, type, created_at)
+                              ),
+                              patung_material(
+                                  id, patung_id, material_id,
+                                  materials(id, name, created_at, updated_at)
+                              )
+                          """)
+                .eq("id", value: id.uuidString.lowercased())
+                .single()
+                .execute()
+                .value
+            
+            return patung
+        } catch {
+            print("PatungViewModel.getPatungById() error for patung \(id): \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    func getMediaForPatung(_ patungId: UUID) async throws -> [PatungMedia] {
+        print("running get media for patung \(patungId)")
+        do {
+            let media: [PatungMedia] = try await supabase
+                .from(Table.patungMedia)
+                .select()
+                .eq("patung_id", value: patungId.uuidString.lowercased())
+                .execute()
+                .value
+            
+            return media
+        } catch {
+            print("PatungViewModel.getMediaForPatung error: for patung \(patungId): \(error.localizedDescription)")
+            throw error
         }
     }
 }
