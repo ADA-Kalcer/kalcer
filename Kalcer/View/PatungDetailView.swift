@@ -9,26 +9,14 @@ import SwiftUI
 
 struct PatungDetailView: View {
     let patung: Patung
+    @StateObject private var patungViewModel = PatungViewModel()
+    @State private var patungMedia: [PatungMedia] = []
+    @State private var isLoadingMedia: Bool = false
     
     var body: some View {
         ScrollView{
             VStack(alignment: .leading, spacing: 16) {
-                AsyncImage(url: URL(string: patung.image ?? "")) { image
-                    in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.3))
-                        .overlay(
-                            Image(systemName: "photo")
-                                .foregroundColor(.gray)
-                                .font(.largeTitle)
-                        )
-                }
-                .frame(height: 200)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                PhotoScrollView(media: patungMedia)
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(patung.name)
@@ -91,8 +79,51 @@ struct PatungDetailView: View {
         }
         .navigationTitle(patung.name)
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            loadPatungMedia()
+        }
+        .overlay(
+            Group {
+                if isLoadingMedia {
+                    ProgressView("Loading photos...")
+                        .padding()
+                        .background(Color.black.opacity(0.7))
+                        .foregroundColor(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+            }
+        )
+    }
+    
+    private func loadPatungMedia() {
+        isLoadingMedia = true
+        Task {
+            do {
+                if let existingMedia = patung.media, !existingMedia.isEmpty {
+                    await MainActor.run {
+                        self.patungMedia = existingMedia
+                        self.isLoadingMedia = false
+                    }
+                } else {
+                    // Fetch media separately if not included in patung object
+                    let media = try await patungViewModel.getMediaForPatung(patung.id)
+                    
+                    await MainActor.run {
+                        self.patungMedia = media
+                        self.isLoadingMedia = false
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.isLoadingMedia = false
+                }
+                print("Error loading patung media: \(error.localizedDescription)")
+            }
+        }
     }
 }
+
+
 
 struct DetailCard: View {
     let title: String
@@ -134,6 +165,26 @@ struct DetailCard: View {
         material: "Bronze",
         createdAt: Date(),
         updatedAt: Date(),
-        deletedAt: nil
+        deletedAt: nil,
+        media: [
+            PatungMedia(
+                id: UUID(),
+                patungId: UUID(),
+                type: MediaType.photo,
+                url: "https://picsum.photos/400/300?random=1"
+            ),
+            PatungMedia(
+                id: UUID(),
+                patungId: UUID(),
+                type: MediaType.photo,
+                url: "https://picsum.photos/400/300?random=2"
+            ),
+            PatungMedia(
+                id: UUID(),
+                patungId: UUID(),
+                type: MediaType.photo,
+                url: "https://picsum.photos/400/300?random=3"
+            )
+        ]
     ))
 }
