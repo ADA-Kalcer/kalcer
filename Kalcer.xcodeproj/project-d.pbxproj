@@ -7,28 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F2D1A3F2E4B1C97003D02E2 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F2D1A3E2E4B1C97003D02E2 /* Supabase */; };
+		3F598B0F2E4F202800EBEF17 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F598B0E2E4F202800EBEF17 /* Supabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9E10E4962E4B114B00052770 /* Kalcer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kalcer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EC274482E4F0E5900EDE70A /* Kalcer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kalcer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3FAAD7282E4B26DB00DEEE4A /* Exceptions for "Kalcer" folder in "Kalcer" target */ = {
+		3F598B112E4F230100EBEF17 /* Exceptions for "Kalcer" folder in "Kalcer" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 9E10E4952E4B114B00052770 /* Kalcer */;
+			target = 9EC274472E4F0E5900EDE70A /* Kalcer */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		9E10E4982E4B114B00052770 /* Kalcer */ = {
+		9EC2744A2E4F0E5900EDE70A /* Kalcer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				3FAAD7282E4B26DB00DEEE4A /* Exceptions for "Kalcer" folder in "Kalcer" target */,
+				3F598B112E4F230100EBEF17 /* Exceptions for "Kalcer" folder in "Kalcer" target */,
 			);
 			path = Kalcer;
 			sourceTree = "<group>";
@@ -36,29 +36,29 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		9E10E4932E4B114B00052770 /* Frameworks */ = {
+		9EC274452E4F0E5900EDE70A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F2D1A3F2E4B1C97003D02E2 /* Supabase in Frameworks */,
+				3F598B0F2E4F202800EBEF17 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9E10E48D2E4B114B00052770 = {
+		9EC2743F2E4F0E5900EDE70A = {
 			isa = PBXGroup;
 			children = (
-				9E10E4982E4B114B00052770 /* Kalcer */,
-				9E10E4972E4B114B00052770 /* Products */,
+				9EC2744A2E4F0E5900EDE70A /* Kalcer */,
+				9EC274492E4F0E5900EDE70A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		9E10E4972E4B114B00052770 /* Products */ = {
+		9EC274492E4F0E5900EDE70A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9E10E4962E4B114B00052770 /* Kalcer.app */,
+				9EC274482E4F0E5900EDE70A /* Kalcer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,68 +66,68 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9E10E4952E4B114B00052770 /* Kalcer */ = {
+		9EC274472E4F0E5900EDE70A /* Kalcer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9E10E4A42E4B114C00052770 /* Build configuration list for PBXNativeTarget "Kalcer" */;
+			buildConfigurationList = 9EC274532E4F0E5B00EDE70A /* Build configuration list for PBXNativeTarget "Kalcer" */;
 			buildPhases = (
-				9E10E4922E4B114B00052770 /* Sources */,
-				9E10E4932E4B114B00052770 /* Frameworks */,
-				9E10E4942E4B114B00052770 /* Resources */,
+				9EC274442E4F0E5900EDE70A /* Sources */,
+				9EC274452E4F0E5900EDE70A /* Frameworks */,
+				9EC274462E4F0E5900EDE70A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				9E10E4982E4B114B00052770 /* Kalcer */,
+				9EC2744A2E4F0E5900EDE70A /* Kalcer */,
 			);
 			name = Kalcer;
 			packageProductDependencies = (
-				3F2D1A3E2E4B1C97003D02E2 /* Supabase */,
+				3F598B0E2E4F202800EBEF17 /* Supabase */,
 			);
 			productName = Kalcer;
-			productReference = 9E10E4962E4B114B00052770 /* Kalcer.app */;
+			productReference = 9EC274482E4F0E5900EDE70A /* Kalcer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		9E10E48E2E4B114B00052770 /* Project object */ = {
+		9EC274402E4F0E5900EDE70A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
-					9E10E4952E4B114B00052770 = {
-						CreatedOnToolsVersion = 16.2;
+					9EC274472E4F0E5900EDE70A = {
+						CreatedOnToolsVersion = 26.0;
 					};
 				};
 			};
-			buildConfigurationList = 9E10E4912E4B114B00052770 /* Build configuration list for PBXProject "Kalcer" */;
+			buildConfigurationList = 9EC274432E4F0E5900EDE70A /* Build configuration list for PBXProject "Kalcer" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 9E10E48D2E4B114B00052770;
+			mainGroup = 9EC2743F2E4F0E5900EDE70A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				3F2D1A3D2E4B1C97003D02E2 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				3F598B0D2E4F202800EBEF17 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 9E10E4972E4B114B00052770 /* Products */;
+			productRefGroup = 9EC274492E4F0E5900EDE70A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9E10E4952E4B114B00052770 /* Kalcer */,
+				9EC274472E4F0E5900EDE70A /* Kalcer */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		9E10E4942E4B114B00052770 /* Resources */ = {
+		9EC274462E4F0E5900EDE70A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -137,7 +137,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		9E10E4922E4B114B00052770 /* Sources */ = {
+		9EC274442E4F0E5900EDE70A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -147,9 +147,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		9E10E4A22E4B114C00052770 /* Debug */ = {
+		9EC274512E4F0E5B00EDE70A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Kalcer */;
+			baseConfigurationReferenceAnchor = 9EC2744A2E4F0E5900EDE70A /* Kalcer */;
 			baseConfigurationReferenceRelativePath = env.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -184,6 +184,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -201,7 +202,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -212,7 +213,7 @@
 			};
 			name = Debug;
 		};
-		9E10E4A32E4B114C00052770 /* Release */ = {
+		9EC274522E4F0E5B00EDE70A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -247,6 +248,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -258,7 +260,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -268,16 +270,15 @@
 			};
 			name = Release;
 		};
-		9E10E4A52E4B114C00052770 /* Debug */ = {
+		9EC274542E4F0E5B00EDE70A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Kalcer */;
+			baseConfigurationReferenceAnchor = 9EC2744A2E4F0E5900EDE70A /* Kalcer */;
 			baseConfigurationReferenceRelativePath = env.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 3QGY9BFW95;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -287,7 +288,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -295,20 +296,23 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tudemaha.Kalcer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		9E10E4A62E4B114C00052770 /* Release */ = {
+		9EC274552E4F0E5B00EDE70A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 3QGY9BFW95;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -318,7 +322,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -326,7 +330,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tudemaha.Kalcer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -335,20 +343,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9E10E4912E4B114B00052770 /* Build configuration list for PBXProject "Kalcer" */ = {
+		9EC274432E4F0E5900EDE70A /* Build configuration list for PBXProject "Kalcer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9E10E4A22E4B114C00052770 /* Debug */,
-				9E10E4A32E4B114C00052770 /* Release */,
+				9EC274512E4F0E5B00EDE70A /* Debug */,
+				9EC274522E4F0E5B00EDE70A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9E10E4A42E4B114C00052770 /* Build configuration list for PBXNativeTarget "Kalcer" */ = {
+		9EC274532E4F0E5B00EDE70A /* Build configuration list for PBXNativeTarget "Kalcer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9E10E4A52E4B114C00052770 /* Debug */,
-				9E10E4A62E4B114C00052770 /* Release */,
+				9EC274542E4F0E5B00EDE70A /* Debug */,
+				9EC274552E4F0E5B00EDE70A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -356,7 +364,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3F2D1A3D2E4B1C97003D02E2 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+		3F598B0D2E4F202800EBEF17 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift";
 			requirement = {
@@ -367,12 +375,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3F2D1A3E2E4B1C97003D02E2 /* Supabase */ = {
+		3F598B0E2E4F202800EBEF17 /* Supabase */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3F2D1A3D2E4B1C97003D02E2 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			package = 3F598B0D2E4F202800EBEF17 /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 9E10E48E2E4B114B00052770 /* Project object */;
+	rootObject = 9EC274402E4F0E5900EDE70A /* Project object */;
 }

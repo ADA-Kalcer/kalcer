@@ -11,7 +11,8 @@ import SwiftUI
 struct KalcerApp: App {
     var body: some Scene {
         WindowGroup {
-            MapView()
+//            MapView()
+            PatungListView()
         }
     }
 }
