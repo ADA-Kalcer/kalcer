@@ -20,7 +20,7 @@ struct MapView: View {
             }
         }
         .sheet(isPresented: $searchSheet) {
-            SearchSheet()
+            SearchSheet(sheetPresentation: $selection)
                 .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
                 .presentationBackgroundInteraction(.enabled)
                 .interactiveDismissDisabled(true)
@@ -31,6 +31,7 @@ struct MapView: View {
 struct SearchSheet: View {
     @State private var searchQuery = ""
     @FocusState private var isTextFieldFocused: Bool
+    @Binding var sheetPresentation: PresentationDetent
     
     var body: some View {
         NavigationView {
@@ -49,11 +50,19 @@ struct SearchSheet: View {
 //                    .background(Color.rgba(red: 127, green: 128, blue: 131, alpha: 0.2))
                     .cornerRadius(30)
                     .glassEffect(.regular.tint(.rgba(red: 127, green: 128, blue: 132, alpha: 0.2)).interactive())
-
+                    .onChange(of: isTextFieldFocused) { focused, _ in
+                        if !focused {
+                            sheetPresentation = .large
+                        }
+                    }
+                    
                     if isTextFieldFocused {
                         Button(action: {
                             isTextFieldFocused = false
                             searchQuery = ""
+                            if sheetPresentation != .height(80) {
+                                sheetPresentation = .fraction(0.4)
+                            }
                         }) {
                             Image(systemName: "xmark")
                                 .foregroundStyle(.black)
