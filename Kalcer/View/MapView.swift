@@ -22,7 +22,6 @@ struct MapView: View {
         )
     )
     
-    
     var body: some View {
         NavigationView {
             ZStack {
@@ -41,24 +40,18 @@ struct MapView: View {
                         }
                     }
                     
-                    MapCircle(center:
-                                CLLocationCoordinate2D(
-                                    latitude: coreLocationViewModel.latitude ?? 0,
-                                    longitude: coreLocationViewModel.longitude ?? 0
-                                ),
-                              radius: 15
+                    UserAnnotation()
+                }
+                .onChange(of: coreLocationViewModel.latitude) {
+                    position = .region(
+                        MKCoordinateRegion(
+                            center: CLLocationCoordinate2D(
+                                latitude: coreLocationViewModel.latitude ?? 0,
+                                longitude: coreLocationViewModel.longitude ?? 0
+                            ),
+                            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                        )
                     )
-                    .foregroundStyle(.red.opacity(0.5))
-                    
-                    MapCircle(center:
-                                CLLocationCoordinate2D(
-                                    latitude: coreLocationViewModel.latitude ?? 0,
-                                    longitude: coreLocationViewModel.longitude ?? 0
-                                ),
-                              radius: 5
-                    )
-                    .foregroundStyle(.red)
-                    .stroke(.white, lineWidth: 2)
                 }
                 
                 if patungViewModel.isLoading {
