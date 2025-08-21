@@ -7,7 +7,6 @@
 
 import Foundation
 import Supabase
-import MapKit
 
 struct Patung: Codable, Identifiable, Hashable {
     let id: UUID
