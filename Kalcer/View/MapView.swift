@@ -14,6 +14,8 @@ struct MapView: View {
     
     @State private var searchQuery = ""
     @State private var searchSheet = false
+    @State private var detailSheet = false
+    @State private var selectedPatung: Patung?
     @State private var selection: PresentationDetent = .height(80)
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
@@ -29,12 +31,17 @@ struct MapView: View {
                     if !patungViewModel.isLoading {
                         ForEach(patungViewModel.patungs) { patung in
                             Annotation(patung.name, coordinate: CLLocationCoordinate2D(latitude: Double(patung.latitude ?? 0.0), longitude: Double(patung.longitude ?? 0.0))) {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.yellow)
-                                        .stroke(Color.white, lineWidth: 2)
-                                    Text("🗿")
-                                        .padding(5)
+                                Button {
+                                    selectedPatung = patung
+                                    searchSheet = false
+                                } label: {
+                                    ZStack {
+                                        Circle()
+                                            .fill(patung.id == selectedPatung?.id ? Color.red : Color.yellow)
+                                            .stroke(Color.white, lineWidth: 2)
+                                        Text("🗿")
+                                            .padding(5)
+                                    }
                                 }
                             }
                         }
@@ -105,6 +112,29 @@ struct MapView: View {
                 .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
                 .presentationBackgroundInteraction(.enabled)
                 .interactiveDismissDisabled(true)
+        }
+        .sheet(item: $selectedPatung) { patung in
+                NavigationView {
+                    PatungDetailView(patung: patung)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button {
+                                    selectedPatung = nil
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
+                            }
+                        }
+                    
+                }
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+                .onAppear {
+                    searchSheet = false
+                }
+                .onDisappear {
+                    searchSheet = true
+                }
         }
     }
 }

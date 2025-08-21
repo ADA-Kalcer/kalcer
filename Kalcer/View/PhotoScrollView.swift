@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PhotoScrollView: View {
+    @Binding var isLoadingMedia: Bool
     let media: [PatungMedia]
     
     private var photoMedia: [PatungMedia] {
@@ -22,10 +23,14 @@ struct PhotoScrollView: View {
                     .fill(Color.gray.opacity(0.3))
                     .overlay(
                         VStack(spacing: 8) {
-                            Image(systemName: "photo")
-                                .foregroundColor(.gray)
-                                .font(.largeTitle)
-                            Text("No photos available")
+                            if isLoadingMedia {
+                                ProgressView()
+                            } else {
+                                Image(systemName: "photo")
+                                    .foregroundColor(.gray)
+                                    .font(.largeTitle)
+                            }
+                            Text(isLoadingMedia ? "Loading photos..." : "No photos available")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
@@ -77,24 +82,26 @@ struct PhotoScrollView: View {
 }
 
 #Preview {
-    PhotoScrollView(media: [
-        PatungMedia(
-            id: UUID(),
-            patungId: UUID(),
-            type: MediaType.photo,
-            url: "https://picsum.photos/400/300?random=1"
-        ),
-        PatungMedia(
-            id: UUID(),
-            patungId: UUID(),
-            type: MediaType.photo,
-            url: "https://picsum.photos/400/300?random=2"
-        ),
-        PatungMedia(
-            id: UUID(),
-            patungId: UUID(),
-            type: MediaType.photo,
-            url: "https://picsum.photos/400/300?random=3"
-        )
-    ])
+    PhotoScrollView(
+        isLoadingMedia: .constant(true),
+        media: [
+            PatungMedia(
+                id: UUID(),
+                patungId: UUID(),
+                type: MediaType.photo,
+                url: "https://picsum.photos/400/300?random=1"
+            ),
+            PatungMedia(
+                id: UUID(),
+                patungId: UUID(),
+                type: MediaType.photo,
+                url: "https://picsum.photos/400/300?random=2"
+            ),
+            PatungMedia(
+                id: UUID(),
+                patungId: UUID(),
+                type: MediaType.photo,
+                url: "https://picsum.photos/400/300?random=3"
+            )
+        ])
 }

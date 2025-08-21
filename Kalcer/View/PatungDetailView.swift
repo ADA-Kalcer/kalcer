@@ -16,7 +16,7 @@ struct PatungDetailView: View {
     var body: some View {
         ScrollView{
             VStack(alignment: .leading, spacing: 16) {
-                PhotoScrollView(media: patungMedia)
+                PhotoScrollView(isLoadingMedia: $isLoadingMedia, media: patungMedia)
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(patung.name)
@@ -82,17 +82,6 @@ struct PatungDetailView: View {
         .onAppear {
             loadPatungMedia()
         }
-        .overlay(
-            Group {
-                if isLoadingMedia {
-                    ProgressView("Loading photos...")
-                        .padding()
-                        .background(Color.black.opacity(0.7))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-            }
-        )
     }
     
     private func loadPatungMedia() {
