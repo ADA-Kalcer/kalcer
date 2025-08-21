@@ -18,8 +18,11 @@ enum Table {
 
 class PatungViewModel: ObservableObject {
     @Published var patungs: [Patung] = []
+    @Published var searchedPatungs: [Patung] = []
     @Published var isLoading = false
     @Published var isError: String? = nil
+    @Published var searchText: String = ""
+    @Published var isSearching = false
     
     let supabase: SupabaseClient
     init() {
@@ -78,15 +81,15 @@ class PatungViewModel: ObservableObject {
             let patung: Patung = try await supabase
                 .from(Table.patungs)
                 .select("""
-                              *,
-                              patung_media(
-                                  id, patung_id, type, url,
-                                  media_type(id, type, created_at)
-                              ),
-                              patung_material(
-                                  id, patung_id, material_id,
-                                  materials(id, name, created_at, updated_at)
-                              )
+                          *,
+                          patung_media(
+                            id, patung_id, type, url,
+                            media_type(id, type, created_at)
+                          ),
+                          patung_material(
+                            id, patung_id, material_id,
+                            materials(id, name, created_at, updated_at)
+                          )
                           """)
                 .eq("id", value: id.uuidString.lowercased())
                 .single()
@@ -114,6 +117,54 @@ class PatungViewModel: ObservableObject {
         } catch {
             print("PatungViewModel.getMediaForPatung error: for patung \(patungId): \(error.localizedDescription)")
             throw error
+        }
+    }
+    
+    func searchPatungs(query: String) async throws {
+        do {
+            DispatchQueue.main.async {
+                self.isLoading = true
+                self.isSearching = true
+            }
+            
+            let patungs: [Patung] = try await supabase
+                .from(Table.patungs)
+                .select("""
+                            *,
+                            patung_media(
+                                id, patung_id, type, url,
+                                media_type(id, type, created_at)
+                            ),
+                            patung_material(
+                                id, patung_id, material_id,
+                                materials(id, name, created_at, updated_at)
+                            )
+                        """)
+                .ilike("name", pattern: "%\(query)%")
+                .order("created_at", ascending: false)
+                .execute()
+                .value
+            
+            print("PatungViewModel.searchPatungs() search results for '\(query)': \(patungs)")
+            
+            DispatchQueue.main.async {
+                self.searchedPatungs = patungs
+                self.isLoading = false
+                self.isError = nil
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.isLoading = false
+                self.isError = error.localizedDescription
+            }
+            print("PatungViewModel.searchPatungs() error: \(error.localizedDescription)")
+        }
+    }
+    
+    func clearSearch() async throws {
+        DispatchQueue.main.async {
+            self.searchText = ""
+            self.searchedPatungs.removeAll()
         }
     }
 }
