@@ -10,6 +10,7 @@ import MapKit
 
 struct MapView: View {
     @StateObject private var patungViewModel = PatungViewModel()
+    @StateObject private var coreLocationViewModel = CoreLocationViewModel()
     
     @State private var searchQuery = ""
     @State private var searchSheet = false
@@ -39,6 +40,25 @@ struct MapView: View {
                             }
                         }
                     }
+                    
+                    MapCircle(center:
+                                CLLocationCoordinate2D(
+                                    latitude: coreLocationViewModel.latitude ?? 0,
+                                    longitude: coreLocationViewModel.longitude ?? 0
+                                ),
+                              radius: 15
+                    )
+                    .foregroundStyle(.red.opacity(0.5))
+                    
+                    MapCircle(center:
+                                CLLocationCoordinate2D(
+                                    latitude: coreLocationViewModel.latitude ?? 0,
+                                    longitude: coreLocationViewModel.longitude ?? 0
+                                ),
+                              radius: 5
+                    )
+                    .foregroundStyle(.red)
+                    .stroke(.white, lineWidth: 2)
                 }
                 
                 if patungViewModel.isLoading {
