@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum RecentSource {
+    case annotate
+    case search
+}
+
 struct Patung: Codable, Identifiable, Hashable {
     let id: UUID
     let name: String
