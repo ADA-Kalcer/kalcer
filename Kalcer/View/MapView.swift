@@ -112,7 +112,7 @@ struct MapView: View {
             }
         }
         .sheet(isPresented: $searchSheet) {
-            SearchSheetComponent(sheetPresentation: $selection, selectedPatung: $selectedPatung, searchSheet: $searchSheet, recentSheet: $recentSheet, recentSource: $recentSource)
+            SearchSheetComponent(sheetPresentation: $selection, selectedPatung: $selectedPatung, searchSheet: $searchSheet, recentSheet: $recentSheet, recentSource: $recentSource, cameraPosition: $position)
                 .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
                 .presentationDragIndicator(.visible)
                 .presentationBackground(.regularMaterial)
