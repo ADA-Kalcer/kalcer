@@ -19,8 +19,8 @@ struct MapView: View {
     @State private var selection: PresentationDetent = .height(80)
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: -8.5, longitude: 115.18),
-            span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+            center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
+            span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
         )
     )
     
@@ -114,27 +114,27 @@ struct MapView: View {
                 .interactiveDismissDisabled(true)
         }
         .sheet(item: $selectedPatung) { patung in
-                NavigationView {
-                    PatungDetailView(patung: patung)
-                        .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                Button {
-                                    selectedPatung = nil
-                                } label: {
-                                    Image(systemName: "xmark")
-                                }
+            NavigationView {
+                PatungDetailView(patung: patung)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                selectedPatung = nil
+                            } label: {
+                                Image(systemName: "xmark")
                             }
                         }
-                    
-                }
-                .presentationDetents([.medium, .large])
-                .presentationDragIndicator(.visible)
-                .onAppear {
-                    searchSheet = false
-                }
-                .onDisappear {
-                    searchSheet = true
-                }
+                    }
+                
+            }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
+            .onAppear {
+                searchSheet = false
+            }
+            .onDisappear {
+                searchSheet = true
+            }
         }
     }
 }
