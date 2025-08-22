@@ -161,6 +161,36 @@ class PatungViewModel: ObservableObject {
         }
     }
     
+    func getPatungsByIds(_ ids: [UUID]) async throws -> [Patung] {
+        guard !ids.isEmpty else { return [] }
+        
+        do {
+            let idStrings = ids.map { $0.uuidString.lowercased() }
+            let patungs: [Patung] = try await supabase
+                .from(Table.patungs)
+                .select("""
+                           *,
+                            patung_media(
+                                id, patung_id, type, url,
+                                media_type(id, type, created_at)
+                            ),
+                            patung_material(
+                                id, patung_id, material_id,
+                                materials(id, name, created_at, updated_at)
+                            )
+                        """)
+                .in("id", values: idStrings)
+                .execute()
+                .value
+            
+            let patungDict = Dictionary(uniqueKeysWithValues: patungs.map { ($0.id, $0) })
+            return ids.compactMap { patungDict[$0] }
+        } catch {
+            print("PatungViewModel.getPatungsByIds() error: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
     func clearSearch() async throws {
         DispatchQueue.main.async {
             self.searchText = ""

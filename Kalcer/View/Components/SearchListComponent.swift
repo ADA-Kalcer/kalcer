@@ -11,6 +11,7 @@ struct SearchListComponent: View {
     @State var title: String
     @State var subtitle: String
     @State var icon: String? = "magnifyingglass"
+    @State var withSuffix: Bool = true
     
     var body: some View {
         HStack {
@@ -22,15 +23,22 @@ struct SearchListComponent: View {
             VStack(alignment: .leading) {
                 Text("\(title.isEmpty ? "Unknown" : title)")
                     .font(Font.body)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
                 Text("\(self.subtitle.isEmpty ? "Unknown" : subtitle)")
                     .font(Font.subheadline)
                     .foregroundStyle(Color.secondary)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
             }
             .padding(.horizontal, 8)
             .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
                 
-            Image(systemName: "chevron.right")
+            if withSuffix {
+                Image(systemName: "ellipsis")
+            }
+            
         }
     }
 }

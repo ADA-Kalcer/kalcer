@@ -14,39 +14,50 @@ struct SearchCardComponent: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: image)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            } placeholder: {
-//                Rectangle()
-//                    .fill(Color.gray.opacity(0.3))
-//                    .overlay(
-//                        VStack(spacing: 8) {
-//                            Image(systemName: "photo")
-//                                .foregroundColor(.gray)
-//                                .font(.title)
-//                            Text("No photos available")
-//                                .font(.caption)
-//                                .foregroundColor(.gray)
-//                        }
-//                    )
-//                    .frame(height: 125)
-                Rectangle()
-                    .fill(Color.gray.opacity(0.3))
-                    .overlay(
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                    )
+            Group {
+                if image.isEmpty {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .overlay(
+                            VStack(spacing: 8) {
+                                Image(systemName: "photo")
+                                    .foregroundColor(.gray)
+                                    .font(.title)
+                                Text("No photos available")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                        )
+                        .frame(height: 125)
+                } else {
+                    AsyncImage(url: URL(string: image)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            
+                    } placeholder: {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.3))
+                            .overlay(
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                            )
+                    }
+                }
             }
-            .frame(maxWidth: .infinity, maxHeight: 125)
+            .frame(width: 175, height: 125)
+            .clipped()
             
-            VStack(spacing: 8) {
+            VStack(spacing: 4) {
                 Text(title)
                     .font(Font.body.bold())
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
                     .frame(maxWidth: 180, alignment: .leading)
                 Text(subtitle)
                     .font(Font.footnote)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
                     .frame(maxWidth: 180, alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -56,10 +67,11 @@ struct SearchCardComponent: View {
             Spacer()
             
         }
-        .frame(width: 200, height: 250)
+        .frame(width: 175, height: 266)
         .background(Color.white)
         .cornerRadius(20)
-//        .glassEffect(in: .rect(cornerRadius: 16))
+        .glassEffect(in: .rect(cornerRadius: 20))
+        .contentShape(Rectangle())
     }
 }
 

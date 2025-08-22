@@ -175,5 +175,6 @@ struct DetailCard: View {
                 url: "https://picsum.photos/400/300?random=3"
             )
         ]
-    ))
+    )
+    )
 }

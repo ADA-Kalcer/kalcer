@@ -9,11 +9,15 @@ import SwiftUI
 
 struct SearchSheetComponent: View {
     @StateObject private var patungViewModel = PatungViewModel()
+    @StateObject private var recentPatungViewModel = RecentPatungViewModel()
+    @StateObject private var recentSearchViewModel = RecentSearchViewModel()
     @State private var searchTask: Task<Void, Never>?
     @FocusState private var isTextFieldFocused: Bool
     @Binding var sheetPresentation: PresentationDetent
     @Binding var selectedPatung: Patung?
     @Binding var searchSheet: Bool
+    @Binding var recentSheet: Bool
+    @Binding var recentSource: RecentSource
     
     var body: some View {
         NavigationView {
@@ -90,19 +94,29 @@ struct SearchSheetComponent: View {
                                             .font(Font.title3.bold())
                                         Image(systemName: "chevron.right")
                                     }
+                                    .onTapGesture {
+                                        searchSheet = false
+                                        recentSource = .annotate
+                                        recentSheet.toggle()
+                                    }
                                     .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .center))
                                     
-                                    ScrollView(.horizontal) {
-                                        HStack(spacing: 20) {
-                                            ForEach(0..<3, id: \.self) {
-                                                SearchCardComponent(title: "Patung \($0)", subtitle: "Alias patung \($0)", image: "https://picsum.photos/400/300?random=1")
-                                            }
+                                    
+                                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 10) {
+                                        ForEach(recentPatungViewModel.recentPatungs.prefix(4)) { patung in
+                                            SearchCardComponent(title: patung.name, subtitle: patung.address ?? "No address", image: patung.displayImageUrl ?? "")
+                                                .onTapGesture {
+                                                    selectedPatung = patung
+                                                    searchSheet.toggle()
+                                                }
                                         }
-                                        
                                     }
+                                    
+                                    Spacer()
+                                        .frame(height: 20)
          
                                     HStack {
-                                        Text("Visited")
+                                        Text("Bookmark")
                                             .font(Font.title3.bold())
                                         Image(systemName: "chevron.right")
                                     }
@@ -114,8 +128,8 @@ struct SearchSheetComponent: View {
                                                 SearchCardComponent(title: "Patung \($0)", subtitle: "Alias patung \($0)", image: "https://picsum.photos/400/300?random=1")
                                             }
                                         }
-                                        
                                     }
+                                    .scrollIndicators(.hidden)
                                 }
                                 .padding(16)
                                 Spacer()
@@ -130,14 +144,25 @@ struct SearchSheetComponent: View {
                                             Image(systemName: "chevron.right")
                                         }
                                         .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .center))
+                                        .onTapGesture {
+                                            searchSheet = false
+                                            recentSource = .search
+                                            recentSheet.toggle()
+                                        }
                                         
                                         VStack {
                                             List {
-                                                ForEach(0..<3, id: \.self) {
-                                                    SearchListComponent(title: "Patung \($0)", subtitle: "Alias patung \($0)")
+                                                ForEach(recentSearchViewModel.recentSearch.prefix(3)) { patung in
+                                                    SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address")
+                                                        .onTapGesture {
+                                                            selectedPatung = patung
+                                                            recentSearchViewModel.addRecentSearch(patung)
+                                                            searchSheet.toggle()
+                                                        }
                                                 }
+                                                .onDelete(perform: deleteRecentSearch)
                                             }
-                                            .frame(height: CGFloat(3 * 70))
+                                            .frame(height: CGFloat(min(recentSearchViewModel.recentSearch.count, 5) * 70))
                                             .cornerRadius(20)
                                             .scrollContentBackground(.hidden)
                                             .listStyle(PlainListStyle())
@@ -145,22 +170,6 @@ struct SearchSheetComponent: View {
                                         
                                         Spacer()
                                             .frame(height: 20)
-             
-                                        HStack {
-                                            Text("Find by Location")
-                                                .font(Font.title3.bold())
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .center))
-                                        
-                                        List {
-                                            ForEach(0..<3, id: \.self) {
-                                                SearchListComponent(title: "Patung \($0)", subtitle: "Alias patung \($0)", icon: "building.2.fill")
-                                            }
-                                        }
-                                        .frame(height: CGFloat(3 * 70))
-                                        .cornerRadius(20)
-                                        .scrollContentBackground(.hidden)
-                                        .listStyle(PlainListStyle())
                                         
                                     }
                                     .padding(16)
@@ -174,9 +183,10 @@ struct SearchSheetComponent: View {
                                         } else {
                                             List {
                                                 ForEach(patungViewModel.searchedPatungs) { patung in
-                                                    SearchListComponent(title: patung.name, subtitle: patung.alias ?? "")
+                                                    SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address", withSuffix: false)
                                                         .onTapGesture {
                                                             selectedPatung = patung
+                                                            recentSearchViewModel.addRecentSearch(patung)
                                                             searchSheet.toggle()
                                                         }
                                                 }
@@ -213,8 +223,12 @@ struct SearchSheetComponent: View {
             print("Search error: \(error.localizedDescription)")
         }
     }
+    
+    private func deleteRecentSearch(at offsets: IndexSet) {
+        recentSearchViewModel.removeRecentSearchByOffset(at: offsets)
+    }
 }
 
 #Preview {
-    SearchSheetComponent(sheetPresentation: .constant(.fraction(0.4)), selectedPatung: .constant(nil), searchSheet: .constant(false))
+    SearchSheetComponent(sheetPresentation: .constant(.fraction(0.4)), selectedPatung: .constant(nil), searchSheet: .constant(false), recentSheet: .constant(false), recentSource: .constant(.annotate))
 }

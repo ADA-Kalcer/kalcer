@@ -10,11 +10,14 @@ import MapKit
 
 struct MapView: View {
     @StateObject private var patungViewModel = PatungViewModel()
+    @StateObject private var recentPatungViewModel = RecentPatungViewModel()
     @StateObject private var coreLocationViewModel = CoreLocationViewModel()
     
     @State private var searchQuery = ""
     @State private var searchSheet = false
     @State private var detailSheet = false
+    @State private var recentSheet = false
+    @State private var recentSource: RecentSource = .search
     @State private var selectedPatung: Patung?
     @State private var selection: PresentationDetent = .height(80)
     @State private var position = MapCameraPosition.region(
@@ -33,6 +36,7 @@ struct MapView: View {
                             Annotation(patung.name, coordinate: CLLocationCoordinate2D(latitude: Double(patung.latitude ?? 0.0), longitude: Double(patung.longitude ?? 0.0))) {
                                 Button {
                                     selectedPatung = patung
+                                    recentPatungViewModel.addRecentPatung(patung)
                                     searchSheet = false
                                 } label: {
                                     ZStack {
@@ -108,7 +112,7 @@ struct MapView: View {
             }
         }
         .sheet(isPresented: $searchSheet) {
-            SearchSheetComponent(sheetPresentation: $selection, selectedPatung: $selectedPatung, searchSheet: $searchSheet)
+            SearchSheetComponent(sheetPresentation: $selection, selectedPatung: $selectedPatung, searchSheet: $searchSheet, recentSheet: $recentSheet, recentSource: $recentSource)
                 .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
                 .presentationDragIndicator(.visible)
                 .presentationBackground(.regularMaterial)
@@ -137,6 +141,33 @@ struct MapView: View {
             .onDisappear {
                 searchSheet = true
             }
+        }
+        .sheet(isPresented: $recentSheet) {
+            NavigationView {
+                RecentListView(recentSource: $recentSource, selectedPatung: $selectedPatung)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                recentSheet = false
+                            } label: {
+                                Image(systemName: "xmark")
+                            }
+                        }
+                    }
+            }
+            
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+            .presentationBackground(.regularMaterial)
+            .presentationBackgroundInteraction(.enabled)
+            .interactiveDismissDisabled(true)
+            .onAppear {
+                searchSheet = false
+            }
+            .onDisappear {
+                searchSheet = true
+            }
+            
         }
     }
 }
