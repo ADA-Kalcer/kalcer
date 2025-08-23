@@ -11,6 +11,9 @@ struct PhotoScrollView: View {
     @Binding var isLoadingMedia: Bool
     let media: [PatungMedia]
     
+    @Binding var showFullscreenImage: Bool
+    @Binding var selectedPhoto: PatungMedia?
+    
     private var photoMedia: [PatungMedia] {
         media.filter { $0.isPhoto && $0.url != nil }
     }
@@ -55,9 +58,12 @@ struct PhotoScrollView: View {
                             }
                             .frame(width: 280, height: 200)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .onTapGesture {
+                                selectedPhoto = photo
+                                showFullscreenImage = true
+                            }
                         }
                     }
-//                    .padding(.horizontal)
                 }
                 
                 // Photo count indicator
@@ -70,11 +76,7 @@ struct PhotoScrollView: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
-//                        Text("Swipe to see more →")
-//                            .font(.caption2)
-//                            .foregroundColor(.secondary)
                     }
-//                    .padding(.horizontal)
                 }
             }
         }
@@ -103,5 +105,8 @@ struct PhotoScrollView: View {
                 type: MediaType.photo,
                 url: "https://picsum.photos/400/300?random=3"
             )
-        ])
+        ],
+        showFullscreenImage: .constant(false),
+        selectedPhoto: .constant(nil)
+    )
 }

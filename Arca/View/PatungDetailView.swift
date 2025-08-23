@@ -16,12 +16,14 @@ struct PatungDetailView: View {
     
     @State private var patungMedia: [PatungMedia] = []
     @State private var isLoadingMedia: Bool = false
+    @State private var showFullscreenImage = false
+    @State private var selectedPhoto: PatungMedia?
     @State var isOpeningMap: Bool = false
     
     var body: some View {
         ScrollView{
             VStack(alignment: .leading, spacing: 30) {
-                PhotoScrollView(isLoadingMedia: $isLoadingMedia, media: patungMedia)
+                PhotoScrollView(isLoadingMedia: $isLoadingMedia, media: patungMedia, showFullscreenImage: $showFullscreenImage, selectedPhoto: $selectedPhoto)
                 
                 ButtonCard(title: patung.name,
                            subtitle: patung.address ?? "No address",
@@ -99,6 +101,9 @@ struct PatungDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             loadPatungMedia()
+        }
+        .fullScreenCover(item: $selectedPhoto) { _ in
+            PhotoFullView(photo: $selectedPhoto)
         }
     }
     
