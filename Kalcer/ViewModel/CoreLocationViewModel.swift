@@ -25,7 +25,6 @@ class CoreLocationViewModel: NSObject, ObservableObject, CLLocationManagerDelega
         switch manager.authorizationStatus {
         case .authorizedWhenInUse:
             authorizationStatus = .authorizedWhenInUse
-            locationManager.requestLocation()
             break
             
         case .restricted:

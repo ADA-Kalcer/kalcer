@@ -15,10 +15,13 @@ struct MapView: View {
     @StateObject private var coreLocationViewModel = CoreLocationViewModel()
     @StateObject private var bookmarkPatungViewModel = BookmarkPatungViewModel()
     
+    @AppStorage("tourMode") var tourModeShowAgain: Bool = true
+    
     @State private var searchQuery = ""
     @State private var searchSheet = false
     @State private var detailSheet = false
     @State private var tourModeState = false
+    @State private var showTourConfirmation = false
     @State private var currentLocationState = false
     @State private var recentSheet = false
     @State private var recentSource: RecentSource = .search
@@ -51,27 +54,45 @@ struct MapView: View {
                     
                     UserAnnotation()
                 }
-                .onChange(of: coreLocationViewModel.latitude) {
-                    position = .region(
-                        MKCoordinateRegion(
-                            center: CLLocationCoordinate2D(
-                                latitude: coreLocationViewModel.latitude ?? 0,
-                                longitude: coreLocationViewModel.longitude ?? 0
-                            ),
-                            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-                        )
-                    )
-                }
+// turn it on if you want to change the camera position on app start and detect location changes
+//                .onChange(of: coreLocationViewModel.latitude) {
+//                    position = .region(
+//                        MKCoordinateRegion(
+//                            center: CLLocationCoordinate2D(
+//                                latitude: coreLocationViewModel.latitude ?? 0,
+//                                longitude: coreLocationViewModel.longitude ?? 0
+//                            ),
+//                            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+//                        )
+//                    )
+//                }
                 
                 if !patungViewModel.isLoading || selection != .large {
                     SecondaryNavigationComponent(
+                        coreLocationViewModel: coreLocationViewModel,
+                        locationState: $currentLocationState,
                         tourModeState: $tourModeState,
-                        locationState: $currentLocationState
+                        showTourModeConfirmation: $showTourConfirmation,
+                        cameraPosition: $position
                     )
                     .position(
                         x: 350,
                         y: 575 - (selection == .fraction(0.4) ? 250 : 0)
                     )
+                }
+                
+                if tourModeShowAgain && showTourConfirmation && tourModeState {
+                    TourModeConfirmationComponent(
+                        showConfirmation: $showTourConfirmation,
+                        tourModeState: $tourModeState,
+                        tourModeShowAgain: $tourModeShowAgain
+                    )
+                    .onAppear {
+                        searchSheet = false
+                    }
+                    .onDisappear {
+                        searchSheet = true
+                    }
                 }
                 
                 if patungViewModel.isLoading {
