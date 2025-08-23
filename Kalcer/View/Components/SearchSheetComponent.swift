@@ -109,6 +109,10 @@ struct SearchSheetComponent: View {
                                             SearchCardComponent(title: patung.name, subtitle: patung.address ?? "No address", image: patung.displayImageUrl ?? "")
                                                 .onTapGesture {
                                                     selectedPatung = patung
+                                                    cameraPosition = MapUtils.zoomMapCamera(
+                                                        latitude: Double(selectedPatung?.latitude ?? 0) - 0.03,
+                                                        longitude: Double(selectedPatung?.longitude ?? 0)
+                                                    )
                                                     searchSheet.toggle()
                                                 }
                                         }
@@ -159,6 +163,10 @@ struct SearchSheetComponent: View {
                                                         .onTapGesture {
                                                             selectedPatung = patung
                                                             recentSearchViewModel.addRecentSearch(patung)
+                                                            cameraPosition = MapUtils.zoomMapCamera(
+                                                                latitude: Double(selectedPatung?.latitude ?? 0),
+                                                                longitude: Double(selectedPatung?.longitude ?? 0)
+                                                            )
                                                             searchSheet.toggle()
                                                         }
                                                 }
@@ -189,6 +197,10 @@ struct SearchSheetComponent: View {
                                                         .onTapGesture {
                                                             selectedPatung = patung
                                                             recentSearchViewModel.addRecentSearch(patung)
+                                                            cameraPosition = MapUtils.zoomMapCamera(
+                                                                latitude: Double(selectedPatung?.latitude ?? 0),
+                                                                longitude: Double(selectedPatung?.longitude ?? 0)
+                                                            )
                                                             searchSheet.toggle()
                                                         }
                                                 }
