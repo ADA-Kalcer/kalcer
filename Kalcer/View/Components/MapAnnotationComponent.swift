@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MapAnnotationComponent: View {
     @ObservedObject var recentPatungViewModel: RecentPatungViewModel
+    @ObservedObject var bookmarkPatungViewModel: BookmarkPatungViewModel
     var patung: Patung
     @Binding var selectedPatung: Patung?
     @Binding var searchSheet: Bool
@@ -21,10 +22,17 @@ struct MapAnnotationComponent: View {
         } label: {
             ZStack {
                 Circle()
-                    .fill(patung.id == selectedPatung?.id ? Color.red : Color.yellow)
+                    .fill( patung.id == selectedPatung?.id ? Color.red : bookmarkPatungViewModel.isBookmarked(patung) ? Color.green : Color.yellow)
                     .stroke(Color.white, lineWidth: 2)
-                Text("🗿")
-                    .padding(5)
+                if bookmarkPatungViewModel.isBookmarked(patung) {
+                    Image(systemName: "bookmark.fill")
+                        .foregroundStyle(Color.white)
+                        .padding(5)
+                } else {
+                    Text("🗿")
+                        .padding(5)
+                }
+                
             }
         }
     }
@@ -33,6 +41,7 @@ struct MapAnnotationComponent: View {
 #Preview {
     MapAnnotationComponent(
         recentPatungViewModel: RecentPatungViewModel(),
+        bookmarkPatungViewModel: BookmarkPatungViewModel(),
         patung: Patung(
             id: UUID(),
             name: "Sample Patung",

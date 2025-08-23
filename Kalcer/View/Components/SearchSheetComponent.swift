@@ -9,17 +9,21 @@ import SwiftUI
 import MapKit
 
 struct SearchSheetComponent: View {
-    @StateObject private var patungViewModel = PatungViewModel()
-    @StateObject private var recentPatungViewModel = RecentPatungViewModel()
-    @StateObject private var recentSearchViewModel = RecentSearchViewModel()
+    @ObservedObject var patungViewModel: PatungViewModel
+    @ObservedObject var recentPatungViewModel: RecentPatungViewModel
+    @ObservedObject var recentSearchViewModel: RecentSearchViewModel
+    @ObservedObject var bookmarkPatungViewModel: BookmarkPatungViewModel
+    
     @State private var searchTask: Task<Void, Never>?
     @FocusState private var isTextFieldFocused: Bool
+    
     @Binding var sheetPresentation: PresentationDetent
     @Binding var selectedPatung: Patung?
     @Binding var searchSheet: Bool
     @Binding var recentSheet: Bool
     @Binding var recentSource: RecentSource
     @Binding var cameraPosition: MapCameraPosition
+    @Binding var bookmarkSheet: Bool
     
     var body: some View {
         NavigationView {
@@ -126,16 +130,21 @@ struct SearchSheetComponent: View {
                                             .font(Font.title3.bold())
                                         Image(systemName: "chevron.right")
                                     }
+                                    .onTapGesture {
+                                        searchSheet = false
+                                        bookmarkSheet.toggle()
+                                    }
                                     .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .center))
                                     
-                                    ScrollView(.horizontal) {
-                                        HStack(spacing: 20) {
-                                            ForEach(0..<3, id: \.self) {
-                                                SearchCardComponent(title: "Patung \($0)", subtitle: "Alias patung \($0)", image: "https://picsum.photos/400/300?random=1")
-                                            }
+                                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 10) {
+                                        ForEach(bookmarkPatungViewModel.bookmarkPatungs.prefix(4)) { patung in
+                                            SearchCardComponent(title: patung.name, subtitle: patung.address ?? "No address", image: patung.displayImageUrl ?? "")
+                                                .onTapGesture {
+                                                    selectedPatung = patung
+                                                    searchSheet.toggle()
+                                                }
                                         }
                                     }
-                                    .scrollIndicators(.hidden)
                                 }
                                 .padding(16)
                                 Spacer()
@@ -244,6 +253,10 @@ struct SearchSheetComponent: View {
 
 #Preview {
     SearchSheetComponent(
+        patungViewModel: PatungViewModel(),
+        recentPatungViewModel: RecentPatungViewModel(),
+        recentSearchViewModel: RecentSearchViewModel(),
+        bookmarkPatungViewModel: BookmarkPatungViewModel(),
         sheetPresentation: .constant(.fraction(0.4)),
         selectedPatung: .constant(nil),
         searchSheet: .constant(false),
@@ -254,5 +267,7 @@ struct SearchSheetComponent: View {
                 center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
                 span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
             )
-        )))
+        )),
+        bookmarkSheet: .constant(false)
+    )
 }

@@ -11,7 +11,9 @@ import MapKit
 struct MapView: View {
     @StateObject private var patungViewModel = PatungViewModel()
     @StateObject private var recentPatungViewModel = RecentPatungViewModel()
+    @StateObject private var recentSearchViewModel = RecentSearchViewModel()
     @StateObject private var coreLocationViewModel = CoreLocationViewModel()
+    @StateObject private var bookmarkPatungViewModel = BookmarkPatungViewModel()
     
     @State private var searchQuery = ""
     @State private var searchSheet = false
@@ -20,6 +22,7 @@ struct MapView: View {
     @State private var currentLocationState = false
     @State private var recentSheet = false
     @State private var recentSource: RecentSource = .search
+    @State private var bookmarkSheet = false
     @State private var selectedPatung: Patung?
     @State private var selection: PresentationDetent = .height(80)
     @State private var position = MapCameraPosition.region(
@@ -38,6 +41,7 @@ struct MapView: View {
                             Annotation(patung.name, coordinate: CLLocationCoordinate2D(latitude: Double(patung.latitude ?? 0.0), longitude: Double(patung.longitude ?? 0.0))) {
                                 MapAnnotationComponent(
                                     recentPatungViewModel: recentPatungViewModel,
+                                    bookmarkPatungViewModel: bookmarkPatungViewModel,
                                     patung: patung,
                                     selectedPatung: $selectedPatung,
                                     searchSheet: $searchSheet)
@@ -80,6 +84,7 @@ struct MapView: View {
                         )
                     }
                 }
+                
             }
         }
         .onAppear {
@@ -90,12 +95,17 @@ struct MapView: View {
         }
         .sheet(isPresented: $searchSheet) {
             SearchSheetComponent(
+                patungViewModel: patungViewModel,
+                recentPatungViewModel: recentPatungViewModel,
+                recentSearchViewModel: recentSearchViewModel,
+                bookmarkPatungViewModel: bookmarkPatungViewModel,
                 sheetPresentation: $selection,
                 selectedPatung: $selectedPatung,
                 searchSheet: $searchSheet,
                 recentSheet: $recentSheet,
                 recentSource: $recentSource,
-                cameraPosition: $position
+                cameraPosition: $position,
+                bookmarkSheet: $bookmarkSheet
             )
             .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
             .presentationDragIndicator(.visible)
@@ -105,16 +115,32 @@ struct MapView: View {
         }
         .sheet(item: $selectedPatung) { patung in
             NavigationView {
-                PatungDetailView(patung: patung)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                selectedPatung = nil
-                            } label: {
-                                Image(systemName: "xmark")
-                            }
+                ZStack {
+                    PatungDetailView(
+                        patung: patung,
+                        patungViewModel: patungViewModel,
+                        bookmarkPatungViewModel: bookmarkPatungViewModel
+                    )
+                    
+                    VStack {
+                        Spacer()
+                        SecondarySheetComponent(
+                            bookmarkPatungViewModel: bookmarkPatungViewModel,
+                            selectedPatung: patung
+                        )
+                            .padding(.bottom, 10)
+                    }
+                    
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            selectedPatung = nil
+                        } label: {
+                            Image(systemName: "xmark")
                         }
                     }
+                }
                 
             }
             .presentationDetents([.medium, .large])
@@ -125,14 +151,50 @@ struct MapView: View {
             .onDisappear {
                 searchSheet = true
             }
+            
         }
         .sheet(isPresented: $recentSheet) {
             NavigationView {
-                RecentListView(recentSource: $recentSource, selectedPatung: $selectedPatung)
+                RecentListView(
+                    recentPatungViewModel: recentPatungViewModel,
+                    recentSearchViewModel: recentSearchViewModel,
+                    recentSource: $recentSource,
+                    selectedPatung: $selectedPatung
+                )
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button {
                                 recentSheet = false
+                            } label: {
+                                Image(systemName: "xmark")
+                            }
+                        }
+                    }
+            }
+            
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+            .presentationBackground(.regularMaterial)
+            .presentationBackgroundInteraction(.enabled)
+            .interactiveDismissDisabled(true)
+            .onAppear {
+                searchSheet = false
+            }
+            .onDisappear {
+                searchSheet = true
+            }
+            
+        }
+        .sheet(isPresented: $bookmarkSheet) {
+            NavigationView {
+                BookmarkListView(
+                    bookmarkPatungViewModel: bookmarkPatungViewModel,
+                    selectedPatung: $selectedPatung
+                )
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                bookmarkSheet = false
                             } label: {
                                 Image(systemName: "xmark")
                             }

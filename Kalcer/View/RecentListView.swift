@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct RecentListView: View {
-    @StateObject var recentPatungViewModel = RecentPatungViewModel()
-    @StateObject var recentSearchViewModel = RecentSearchViewModel()
+    @ObservedObject var recentPatungViewModel: RecentPatungViewModel
+    @ObservedObject var recentSearchViewModel: RecentSearchViewModel
+    
     @Binding var recentSource: RecentSource
     @Binding var selectedPatung: Patung?
     
@@ -52,5 +53,10 @@ struct RecentListView: View {
 }
 
 #Preview {
-    RecentListView(recentSource: .constant(.annotate), selectedPatung: .constant(nil))
+    RecentListView(
+        recentPatungViewModel: RecentPatungViewModel(),
+        recentSearchViewModel: RecentSearchViewModel(),
+        recentSource: .constant(.annotate),
+        selectedPatung: .constant(nil)
+    )
 }
