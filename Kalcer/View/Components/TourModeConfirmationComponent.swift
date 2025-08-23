@@ -24,6 +24,9 @@ struct TourModeConfirmationComponent: View {
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
+                .containerRelativeFrame(.horizontal) { width, _ in
+                    width * 0.8
+                }
             
             Button {
                 showConfirmation = false
@@ -35,8 +38,7 @@ struct TourModeConfirmationComponent: View {
                     .padding(.horizontal, 40)
                     .padding(.vertical, 10)
             }
-            .background(.blue)
-            .clipShape(.capsule)
+            .buttonStyle(.borderedProminent)
             
             Button {
                 tourModeShowAgain = false
