@@ -9,7 +9,10 @@ import SwiftUI
 
 struct PatungDetailView: View {
     let patung: Patung
-    @StateObject private var patungViewModel = PatungViewModel()
+    
+    @ObservedObject var patungViewModel: PatungViewModel
+    @ObservedObject var bookmarkPatungViewModel: BookmarkPatungViewModel
+    
     @State private var patungMedia: [PatungMedia] = []
     @State private var isLoadingMedia: Bool = false
     
@@ -74,8 +77,12 @@ struct PatungDetailView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                 }
+                
+                Spacer()
+                    .frame(minHeight: 50)
             }
             .padding()
+            
         }
         .navigationTitle(patung.name)
         .navigationBarTitleDisplayMode(.inline)
@@ -138,43 +145,46 @@ struct DetailCard: View {
 }
 
 #Preview {
-    PatungDetailView(patung: Patung(
-        id: UUID(),
-        name: "Sample Patung",
-        alias: "Sample Alias",
-        address: "Sample Address",
-        image: nil,
-        longitude: 115.0,
-        latitude: -8.0,
-        inaugurationYear: 2020,
-        buildReason: "Sample reason",
-        dimension: "10m x 5m",
-        story: "Sample story about the patung",
-        artist: "Sample Artist",
-        material: "Bronze",
-        createdAt: Date(),
-        updatedAt: Date(),
-        deletedAt: nil,
-        media: [
-            PatungMedia(
-                id: UUID(),
-                patungId: UUID(),
-                type: MediaType.photo,
-                url: "https://picsum.photos/400/300?random=1"
-            ),
-            PatungMedia(
-                id: UUID(),
-                patungId: UUID(),
-                type: MediaType.photo,
-                url: "https://picsum.photos/400/300?random=2"
-            ),
-            PatungMedia(
-                id: UUID(),
-                patungId: UUID(),
-                type: MediaType.photo,
-                url: "https://picsum.photos/400/300?random=3"
-            )
-        ]
-    )
+    PatungDetailView(
+        patung: Patung(
+            id: UUID(),
+            name: "Sample Patung",
+            alias: "Sample Alias",
+            address: "Sample Address",
+            image: nil,
+            longitude: 115.0,
+            latitude: -8.0,
+            inaugurationYear: 2020,
+            buildReason: "Sample reason",
+            dimension: "10m x 5m",
+            story: "Sample story about the patung",
+            artist: "Sample Artist",
+            material: "Bronze",
+            createdAt: Date(),
+            updatedAt: Date(),
+            deletedAt: nil,
+            media: [
+                PatungMedia(
+                    id: UUID(),
+                    patungId: UUID(),
+                    type: MediaType.photo,
+                    url: "https://picsum.photos/400/300?random=1"
+                ),
+                PatungMedia(
+                    id: UUID(),
+                    patungId: UUID(),
+                    type: MediaType.photo,
+                    url: "https://picsum.photos/400/300?random=2"
+                ),
+                PatungMedia(
+                    id: UUID(),
+                    patungId: UUID(),
+                    type: MediaType.photo,
+                    url: "https://picsum.photos/400/300?random=3"
+                )
+            ]
+        ),
+        patungViewModel: PatungViewModel(),
+        bookmarkPatungViewModel: BookmarkPatungViewModel()
     )
 }
