@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct SearchSheetComponent: View {
     @StateObject private var patungViewModel = PatungViewModel()
@@ -18,6 +19,7 @@ struct SearchSheetComponent: View {
     @Binding var searchSheet: Bool
     @Binding var recentSheet: Bool
     @Binding var recentSource: RecentSource
+    @Binding var cameraPosition: MapCameraPosition
     
     var body: some View {
         NavigationView {
@@ -215,8 +217,7 @@ struct SearchSheetComponent: View {
     
     private func performSearch(query: String) async {
         do {
-            if query.isEmpty {
-            } else {
+            if !query.isEmpty {
                 try await patungViewModel.searchPatungs(query: query)
             }
         } catch {
@@ -230,5 +231,16 @@ struct SearchSheetComponent: View {
 }
 
 #Preview {
-    SearchSheetComponent(sheetPresentation: .constant(.fraction(0.4)), selectedPatung: .constant(nil), searchSheet: .constant(false), recentSheet: .constant(false), recentSource: .constant(.annotate))
+    SearchSheetComponent(
+        sheetPresentation: .constant(.fraction(0.4)),
+        selectedPatung: .constant(nil),
+        searchSheet: .constant(false),
+        recentSheet: .constant(false),
+        recentSource: .constant(.annotate),
+        cameraPosition: .constant(MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
+                span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
+            )
+        )))
 }
