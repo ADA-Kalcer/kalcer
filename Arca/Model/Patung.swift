@@ -26,6 +26,7 @@ struct Patung: Codable, Identifiable, Hashable {
     let story: String?
     let artist: String?
     let material: String?
+    let category1: String
     let createdAt: Date
     let updatedAt: Date
     let deletedAt: Date?
@@ -35,7 +36,7 @@ struct Patung: Codable, Identifiable, Hashable {
     var materials: [PatungMaterial]?
     
     enum CodingKeys: String, CodingKey {
-        case id, name, alias, address, image, longitude, latitude, dimension, story, artist, material
+        case id, name, alias, address, image, longitude, latitude, dimension, story, artist, material, category1
         case inaugurationYear = "inauguration_year"
         case buildReason = "build_reason"
         case createdAt = "created_at"

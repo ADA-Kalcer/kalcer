@@ -82,6 +82,7 @@ struct SecondarySheetComponent: View {
             story: "Sample story about the patung",
             artist: "Sample Artist",
             material: "Bronze",
+            category1: "monumental",
             createdAt: Date(),
             updatedAt: Date(),
             deletedAt: nil,
