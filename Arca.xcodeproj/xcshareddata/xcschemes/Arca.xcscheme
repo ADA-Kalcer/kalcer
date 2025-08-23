@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9E10E4952E4B114B00052770"
-               BuildableName = "Kalcer.app"
-               BlueprintName = "Kalcer"
-               ReferencedContainer = "container:Kalcer.xcodeproj">
+               BuildableName = "Arca.app"
+               BlueprintName = "Arca"
+               ReferencedContainer = "container:Arca.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9E10E4952E4B114B00052770"
-            BuildableName = "Kalcer.app"
-            BlueprintName = "Kalcer"
-            ReferencedContainer = "container:Kalcer.xcodeproj">
+            BuildableName = "Arca.app"
+            BlueprintName = "Arca"
+            ReferencedContainer = "container:Arca.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9E10E4952E4B114B00052770"
-            BuildableName = "Kalcer.app"
-            BlueprintName = "Kalcer"
-            ReferencedContainer = "container:Kalcer.xcodeproj">
+            BuildableName = "Arca.app"
+            BlueprintName = "Arca"
+            ReferencedContainer = "container:Arca.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

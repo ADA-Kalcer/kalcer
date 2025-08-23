@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct KalcerApp: App {
+struct ArcaApp: App {
     var body: some Scene {
         WindowGroup {
             MapView()
