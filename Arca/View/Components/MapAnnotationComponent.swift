@@ -24,25 +24,31 @@ struct MapAnnotationComponent: View {
                 Circle()
                     .fill(
                         patung.id == selectedPatung?.id ?
-                        Color.red :
+                        Color.rgb(red: 62, green: 127, blue: 138) :
                             bookmarkPatungViewModel.isBookmarked(patung) ?
-                        Color.green :
-                            Color.yellow
+                        Color.rgb(red: 249, green: 249, blue: 249) :
+                            Color.rgb(red: 169, green: 211, blue: 197)
                     )
                     .stroke(Color.white, lineWidth: 2)
                 
                 if bookmarkPatungViewModel.isBookmarked(patung) {
                     Image(systemName: "bookmark.fill")
-                        .foregroundStyle(Color.white)
+                        .foregroundStyle(Color.rgb(red: 62, green: 127, blue: 138))
                         .padding(5)
                 } else {
-                    Image("monument")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30)
-                        .padding(3)
-//                    Text("🗿")
-//                        .padding(5)
+                    if patung.category1 == "monumental" {
+                        Image("monument")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30)
+                            .padding(3)
+                    } else {
+                        Image("ritual")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30)
+                            .padding(3)
+                    }
                 }
                 
             }
@@ -68,6 +74,7 @@ struct MapAnnotationComponent: View {
             story: "Sample story about the patung",
             artist: "Sample Artist",
             material: "Bronze",
+            category1: "monumental",
             createdAt: Date(),
             updatedAt: Date(),
             deletedAt: nil,
@@ -107,6 +114,7 @@ struct MapAnnotationComponent: View {
                 story: "Sample story about the patung",
                 artist: "Sample Artist",
                 material: "Bronze",
+                category1: "monumental",
                 createdAt: Date(),
                 updatedAt: Date(),
                 deletedAt: nil,
