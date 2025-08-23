@@ -22,15 +22,27 @@ struct MapAnnotationComponent: View {
         } label: {
             ZStack {
                 Circle()
-                    .fill( patung.id == selectedPatung?.id ? Color.red : bookmarkPatungViewModel.isBookmarked(patung) ? Color.green : Color.yellow)
+                    .fill(
+                        patung.id == selectedPatung?.id ?
+                        Color.red :
+                            bookmarkPatungViewModel.isBookmarked(patung) ?
+                        Color.green :
+                            Color.yellow
+                    )
                     .stroke(Color.white, lineWidth: 2)
+                
                 if bookmarkPatungViewModel.isBookmarked(patung) {
                     Image(systemName: "bookmark.fill")
                         .foregroundStyle(Color.white)
                         .padding(5)
                 } else {
-                    Text("🗿")
-                        .padding(5)
+                    Image("monument")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30)
+                        .padding(3)
+//                    Text("🗿")
+//                        .padding(5)
                 }
                 
             }
