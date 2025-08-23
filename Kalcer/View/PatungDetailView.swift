@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct PatungDetailView: View {
     let patung: Patung
@@ -15,67 +16,77 @@ struct PatungDetailView: View {
     
     @State private var patungMedia: [PatungMedia] = []
     @State private var isLoadingMedia: Bool = false
+    @State var isOpeningMap: Bool = false
     
     var body: some View {
         ScrollView{
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 30) {
                 PhotoScrollView(isLoadingMedia: $isLoadingMedia, media: patungMedia)
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(patung.name)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    if let alias = patung.alias {
-                        Text(alias)
-                            .font(.title2)
-                            .foregroundColor(.secondary)
-                    }
+                ButtonCard(title: patung.name,
+                           subtitle: patung.address ?? "No address",
+                           icon: "car") {
+                    isOpeningMap.toggle()
+                }
+                           .confirmationDialog("Where would you like to open the map?", isPresented: $isOpeningMap) {
+                               Button {
+                                   let coordinate = CLLocationCoordinate2D(latitude: Double(patung.latitude ?? 0), longitude: Double(patung.longitude ?? 0))
+                                   let placemark = MKPlacemark(coordinate: coordinate)
+                                   let mapItem = MKMapItem(placemark: placemark)
+                                   mapItem.name = patung.name
+                                   mapItem.openInMaps(launchOptions: [MKLaunchOptionsMapCenterKey: coordinate])
+                               } label: {
+                                   Text("Open in Maps")
+                               }
+                               Button {
+                                   let latitude = patung.latitude ?? 0
+                                   let longitude = patung.longitude ?? 0
+                                   let googleMapsURL =
+                                   "comgooglemaps://?q=\(latitude),\(longitude)"
+                                   if let url = URL(string: googleMapsURL),
+                                      UIApplication.shared.canOpenURL(url) {
+                                       UIApplication.shared.open(url)
+                                   } else {
+                                       let webURL = "https://www.google.com/maps/search/?api=1&query=\(latitude),\(longitude)"
+                                       if let url = URL(string: webURL) {
+                                           UIApplication.shared.open(url)
+                                       }
+                                   }
+                               } label: {
+                                   Text("Open in Google Maps")
+                               }
+                           }
+                
+                VStack {
+                    Text("About")
+                        .font(Font.title3.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(patung.buildReason ?? "No description")
+                        .font(Font.body)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 1), spacing: 12) {
-                    DetailCard(title: "Address", value: patung.address ?? "Not specified")
-                    DetailCard(title: "Artist", value: patung.artist ?? "Unknown")
-                    DetailCard(title: "Material", value: patung.material ?? "Not specified")
-                    DetailCard(title: "Inauguration Year", value: patung.inaugurationYear != nil ? String(patung.inaugurationYear!) : "Unknown")
-                    DetailCard(title: "Dimension", value: patung.dimension ?? "Not specified")
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
+                    DefaultCard(title: "Dimension", subtitle: patung.dimension)
+                    DefaultCard(title: "Material", subtitle: patung.material)
                     
-                    if let longitude = patung.longitude, let latitude =
-                        patung.latitude {
-                        DetailCard(title: "Coordinates", value: "\(latitude), \(longitude)")
-                    }
+                    DefaultCard(title: "Weight", subtitle: nil)
+                    DefaultCard(title: "Sculptor", subtitle: patung.artist)
+                    
+                    DefaultCard(title: "Construction", subtitle: "Build in \(patung.inaugurationYear ?? 1990)")
+                    DefaultCard(title: "Structure", subtitle: nil)
                 }
                 
-                // Story Section
+                
                 if let story = patung.story {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Story")
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                        
-                        Text(story)
-                            .font(.body)
-                            .lineSpacing(4)
+                    VStack {
+                        Text("Story Behind Patung")
+                            .font(Font.title3.bold())
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text(patung.story ?? "No story available for this patung.")
+                            .font(Font.body)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
-                }
-                
-                // Build Reason Section
-                if let buildReason = patung.buildReason {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Build Reason")
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                        
-                        Text(buildReason)
-                            .font(.body)
-                            .lineSpacing(4)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
                 }
                 
                 Spacer()
@@ -101,7 +112,6 @@ struct PatungDetailView: View {
                         self.isLoadingMedia = false
                     }
                 } else {
-                    // Fetch media separately if not included in patung object
                     let media = try await patungViewModel.getMediaForPatung(patung.id)
                     
                     await MainActor.run {
@@ -141,6 +151,68 @@ struct DetailCard: View {
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(8)
+    }
+}
+
+struct ButtonCard: View {
+    let title: String
+    let subtitle: String
+    let icon: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(Font.callout.bold())
+                        .lineLimit(1)
+                        .multilineTextAlignment(.leading)
+                    Text(subtitle)
+                        .font(Font.subheadline)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                }
+                Spacer()
+                    .frame(width: 10)
+                
+                Spacer()
+                
+                Spacer()
+                    .frame(width: 10)
+                VStack {
+                    Image(systemName: icon)
+                        .font(Font.system(size: 26, weight: .bold))
+                }
+                
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
+            .background(Color.rgb(red: 217, green: 217, blue: 217))
+            .cornerRadius(20)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(PlainButtonStyle())
+        .glassEffect(in: .rect(cornerRadius: 20))
+        
+        
+    }
+}
+
+struct DefaultCard: View {
+    let title: String
+    let subtitle: String?
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(Font.callout.bold())
+            Text(subtitle ?? "-")
+                .font(Font.callout)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
