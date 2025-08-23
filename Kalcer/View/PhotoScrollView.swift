@@ -57,7 +57,7 @@ struct PhotoScrollView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
                     }
-                    .padding(.horizontal)
+//                    .padding(.horizontal)
                 }
                 
                 // Photo count indicator
@@ -70,11 +70,11 @@ struct PhotoScrollView: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("Swipe to see more →")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
+//                        Text("Swipe to see more →")
+//                            .font(.caption2)
+//                            .foregroundColor(.secondary)
                     }
-                    .padding(.horizontal)
+//                    .padding(.horizontal)
                 }
             }
         }

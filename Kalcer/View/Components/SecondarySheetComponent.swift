@@ -14,7 +14,7 @@ struct SecondarySheetComponent: View {
     let selectedPatung: Patung
     
     var body: some View {
-        HStack(spacing: 10) {
+        HStack {
             Button {
                 bookmarkPatungViewModel.toggleBookmark(selectedPatung)
             } label: {
