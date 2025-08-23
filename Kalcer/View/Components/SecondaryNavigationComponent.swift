@@ -10,21 +10,28 @@ import MapKit
 
 struct SecondaryNavigationComponent: View {
     @ObservedObject var coreLocationViewModel: CoreLocationViewModel
-    @Binding var tourModeState: Bool
     @Binding var locationState: Bool
+    @Binding var tourModeState: Bool
+    @Binding var showTourModeConfirmation: Bool
     @Binding var cameraPosition: MapCameraPosition
+
     
     var body: some View {
         VStack(spacing: 10) {
             Button {
+                showTourModeConfirmation = true
                 tourModeState.toggle()
             } label: {
                 Image(systemName: "headphones")
                     .font(.title2)
-                    .foregroundStyle(Color.rgb(red: 64, green: 64, blue: 1))
+                    .foregroundStyle(tourModeState ? .white : Color.rgb(red: 64, green: 64, blue: 1))
             }
             .padding()
-            .glassEffect(.regular.interactive())
+            .glassEffect(
+                tourModeState ?
+                    .regular.tint(.blue.opacity(0.8)).interactive() :
+                        .regular.interactive()
+            )
             
             Button {
                 if coreLocationViewModel.authorizationStatus == .notDetermined {
@@ -37,10 +44,10 @@ struct SecondaryNavigationComponent: View {
                             latitude: coreLocationViewModel.latitude ?? 0,
                             longitude: coreLocationViewModel.longitude ?? 0
                         ),
-                        span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
+                        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
                     )
                 )
-                locationState.toggle()
+                locationState = true
             } label: {
                 Image(systemName: locationState ? "location.fill" : "location")
                     .font(.title2)
@@ -62,8 +69,9 @@ struct SecondaryNavigationComponent: View {
 #Preview {
     SecondaryNavigationComponent(
         coreLocationViewModel: CoreLocationViewModel(),
-        tourModeState: .constant(true),
         locationState: .constant(true),
+        tourModeState: .constant(true),
+        showTourModeConfirmation: .constant(true),
         cameraPosition: .constant(MapCameraPosition.region(
             MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
