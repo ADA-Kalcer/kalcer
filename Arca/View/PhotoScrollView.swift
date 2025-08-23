@@ -65,6 +65,7 @@ struct PhotoScrollView: View {
                         }
                     }
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 // Photo count indicator
                 if photoMedia.count > 1 {
