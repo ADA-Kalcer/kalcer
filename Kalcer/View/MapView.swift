@@ -16,6 +16,8 @@ struct MapView: View {
     @State private var searchQuery = ""
     @State private var searchSheet = false
     @State private var detailSheet = false
+    @State private var tourModeState = false
+    @State private var currentLocationState = false
     @State private var recentSheet = false
     @State private var recentSource: RecentSource = .search
     @State private var selectedPatung: Patung?
@@ -34,19 +36,7 @@ struct MapView: View {
                     if !patungViewModel.isLoading {
                         ForEach(patungViewModel.patungs) { patung in
                             Annotation(patung.name, coordinate: CLLocationCoordinate2D(latitude: Double(patung.latitude ?? 0.0), longitude: Double(patung.longitude ?? 0.0))) {
-                                Button {
-                                    selectedPatung = patung
-                                    recentPatungViewModel.addRecentPatung(patung)
-                                    searchSheet = false
-                                } label: {
-                                    ZStack {
-                                        Circle()
-                                            .fill(patung.id == selectedPatung?.id ? Color.red : Color.yellow)
-                                            .stroke(Color.white, lineWidth: 2)
-                                        Text("🗿")
-                                            .padding(5)
-                                    }
-                                }
+                                MapAnnotationComponent(patung: patung, selectedPatung: $selectedPatung, searchSheet: $searchSheet)
                             }
                         }
                     }
@@ -65,42 +55,25 @@ struct MapView: View {
                     )
                 }
                 
+                if !patungViewModel.isLoading || selection != .large {
+                    SecondaryNavigationComponent(
+                        tourModeState: $tourModeState,
+                        locationState: $currentLocationState
+                    )
+                    .position(
+                        x: 350,
+                        y: 575 - (selection == .fraction(0.4) ? 250 : 0)
+                    )
+                }
+                
                 if patungViewModel.isLoading {
-                    ProgressView("Loading patungs...")
-                        .padding()
-                        .glassEffect(in: .rect(cornerRadius: 16))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.black.opacity(0.7))
+                    ProgressModalComponent()
                 } else {
                     if patungViewModel.isError != nil {
-                        VStack(spacing: 16) {
-                            Image(systemName: "exclamationmark.icloud")
-                                .font(.system(size: 60))
-                                .foregroundColor(.red)
-                            Text("Something went wrong!")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            Text(patungViewModel.isError?.description ??
-                                 "Unknown error occurred")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
-                            
-                            Button("Retry") {
-                                Task {
-                                    try await patungViewModel.getPatungs()
-                                    searchSheet = true
-                                }
-                            }
-                            .buttonStyle(.borderedProminent)
-                        }
-                        .onAppear {
-                            searchSheet = false
-                        }
-                        .padding()
-                        .glassEffect(in: .rect(cornerRadius: 16))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.black.opacity(0.7))
+                        SupabaseErrorComponent(
+                            patungViewModel: patungViewModel,
+                            searchSheet: $searchSheet
+                        )
                     }
                 }
             }
@@ -112,12 +85,19 @@ struct MapView: View {
             }
         }
         .sheet(isPresented: $searchSheet) {
-            SearchSheetComponent(sheetPresentation: $selection, selectedPatung: $selectedPatung, searchSheet: $searchSheet, recentSheet: $recentSheet, recentSource: $recentSource, cameraPosition: $position)
-                .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
-                .presentationDragIndicator(.visible)
-                .presentationBackground(.regularMaterial)
-                .presentationBackgroundInteraction(.enabled)
-                .interactiveDismissDisabled(true)
+            SearchSheetComponent(
+                sheetPresentation: $selection,
+                selectedPatung: $selectedPatung,
+                searchSheet: $searchSheet,
+                recentSheet: $recentSheet,
+                recentSource: $recentSource,
+                cameraPosition: $position
+            )
+            .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
+            .presentationDragIndicator(.visible)
+            .presentationBackground(.regularMaterial)
+            .presentationBackgroundInteraction(.enabled)
+            .interactiveDismissDisabled(true)
         }
         .sheet(item: $selectedPatung) { patung in
             NavigationView {

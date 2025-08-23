@@ -14,7 +14,6 @@ struct SearchSheetComponent: View {
     @StateObject private var recentSearchViewModel = RecentSearchViewModel()
     @State private var searchTask: Task<Void, Never>?
     @FocusState private var isTextFieldFocused: Bool
-    
     @Binding var sheetPresentation: PresentationDetent
     @Binding var selectedPatung: Patung?
     @Binding var searchSheet: Bool
