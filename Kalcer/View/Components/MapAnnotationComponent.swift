@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MapAnnotationComponent: View {
+    @ObservedObject var recentPatungViewModel: RecentPatungViewModel
     var patung: Patung
     @Binding var selectedPatung: Patung?
     @Binding var searchSheet: Bool
@@ -15,6 +16,7 @@ struct MapAnnotationComponent: View {
     var body: some View {
         Button {
             selectedPatung = patung
+            recentPatungViewModel.addRecentPatung(patung)
             searchSheet = false
         } label: {
             ZStack {
@@ -30,6 +32,7 @@ struct MapAnnotationComponent: View {
 
 #Preview {
     MapAnnotationComponent(
+        recentPatungViewModel: RecentPatungViewModel(),
         patung: Patung(
             id: UUID(),
             name: "Sample Patung",

@@ -36,7 +36,11 @@ struct MapView: View {
                     if !patungViewModel.isLoading {
                         ForEach(patungViewModel.patungs) { patung in
                             Annotation(patung.name, coordinate: CLLocationCoordinate2D(latitude: Double(patung.latitude ?? 0.0), longitude: Double(patung.longitude ?? 0.0))) {
-                                MapAnnotationComponent(patung: patung, selectedPatung: $selectedPatung, searchSheet: $searchSheet)
+                                MapAnnotationComponent(
+                                    recentPatungViewModel: recentPatungViewModel,
+                                    patung: patung,
+                                    selectedPatung: $selectedPatung,
+                                    searchSheet: $searchSheet)
                             }
                         }
                     }
