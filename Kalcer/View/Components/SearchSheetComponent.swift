@@ -114,7 +114,7 @@ struct SearchSheetComponent: View {
                                                 .onTapGesture {
                                                     selectedPatung = patung
                                                     cameraPosition = MapUtils.zoomMapCamera(
-                                                        latitude: Double(selectedPatung?.latitude ?? 0) - 0.03,
+                                                        latitude: Double(selectedPatung?.latitude ?? 0) - 0.0035,
                                                         longitude: Double(selectedPatung?.longitude ?? 0)
                                                     )
                                                     searchSheet.toggle()

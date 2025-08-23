@@ -65,8 +65,10 @@ struct MapView: View {
                 
                 if !patungViewModel.isLoading || selection != .large {
                     SecondaryNavigationComponent(
+                        coreLocationViewModel: coreLocationViewModel,
                         tourModeState: $tourModeState,
-                        locationState: $currentLocationState
+                        locationState: $currentLocationState,
+                        cameraPosition: $position
                     )
                     .position(
                         x: 350,

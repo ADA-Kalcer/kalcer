@@ -12,7 +12,7 @@ struct MapUtils {
     public static func zoomMapCamera(latitude: Double, longitude: Double) -> MapCameraPosition {
         return MapCameraPosition.region(MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-            span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         )
     }
 }
