@@ -73,7 +73,7 @@ struct PhotoFullView: View {
                             .foregroundColor(.white)
                             .font(.title2)
                             .padding()
-                            .background(Color.black.opacity(0.5))
+                            .glassEffect(.regular.interactive())
                             .clipShape(Circle())
                     }
                     .padding()
