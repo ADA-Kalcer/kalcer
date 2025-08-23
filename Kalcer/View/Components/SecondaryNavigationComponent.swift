@@ -25,8 +25,8 @@ struct SecondaryNavigationComponent: View {
                 Image(systemName: "headphones")
                     .font(.title2)
                     .foregroundStyle(tourModeState ? .white : Color.rgb(red: 64, green: 64, blue: 1))
+                    .padding()
             }
-            .padding()
             .glassEffect(
                 tourModeState ?
                     .regular.tint(.blue.opacity(0.8)).interactive() :
@@ -52,8 +52,8 @@ struct SecondaryNavigationComponent: View {
                 Image(systemName: locationState ? "location.fill" : "location")
                     .font(.title2)
                     .foregroundStyle(locationState ? .blue : Color.rgb(red: 64, green: 64, blue: 1))
+                    .padding()
             }
-            .padding()
             .glassEffect(.regular.interactive())
             .onChange(of: cameraPosition) { _, newValue in
                 if coreLocationViewModel.latitude != newValue.region?.center.latitude ||
