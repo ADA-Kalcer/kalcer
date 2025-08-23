@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct SecondarySheetComponent: View {
     @ObservedObject var bookmarkPatungViewModel: BookmarkPatungViewModel
-    
+    @State var isOpeningMap: Bool = false
     let selectedPatung: Patung
     
     var body: some View {
@@ -24,12 +25,41 @@ struct SecondarySheetComponent: View {
             .padding()
             
             Button {
+                isOpeningMap.toggle()
             } label: {
                 Image(systemName: "car")
                     .font(.title2)
                     .foregroundStyle(Color.rgb(red: 64, green: 64, blue: 1))
             }
             .padding()
+            .confirmationDialog("Where would you like to open the map?", isPresented: $isOpeningMap) {
+                Button {
+                    let coordinate = CLLocationCoordinate2D(latitude: Double(selectedPatung.latitude ?? 0), longitude: Double(selectedPatung.longitude ?? 0))
+                    let placemark = MKPlacemark(coordinate: coordinate)
+                    let mapItem = MKMapItem(placemark: placemark)
+                    mapItem.name = selectedPatung.name
+                    mapItem.openInMaps(launchOptions: [MKLaunchOptionsMapCenterKey: coordinate])
+                } label: {
+                    Text("Open in Maps")
+                }
+                Button {
+                    let latitude = selectedPatung.latitude ?? 0
+                    let longitude = selectedPatung.longitude ?? 0
+                    let googleMapsURL =
+                    "comgooglemaps://?q=\(latitude),\(longitude)"
+                    if let url = URL(string: googleMapsURL),
+                       UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    } else {
+                        let webURL = "https://www.google.com/maps/search/?api=1&query=\(latitude),\(longitude)"
+                        if let url = URL(string: webURL) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                } label: {
+                    Text("Open in Google Maps")
+                }
+            }
         }
         .glassEffect(.regular.interactive())
     }
