@@ -29,7 +29,7 @@ struct RecentListView: View {
                                 afterDetailDismiss = .recent
                                 selectedPatung = patung
                                 cameraPosition = MapUtils.zoomMapCamera(
-                                    latitude: Double(selectedPatung?.latitude ?? 0) - 0.0035,
+                                    latitude: Double(selectedPatung?.latitude ?? 0),
                                     longitude: Double(selectedPatung?.longitude ?? 0)
                                 )
                             }

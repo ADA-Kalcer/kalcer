@@ -31,7 +31,7 @@ struct MapView: View {
     @State private var selection: PresentationDetent = .height(80)
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
+            center: CLLocationCoordinate2D(latitude: -8.5, longitude: 115.1),
             span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
         )
     )
@@ -54,6 +54,14 @@ struct MapView: View {
                     }
                     
                     UserAnnotation()
+                }
+                .safeAreaInset(edge: .bottom) {
+                    EmptyView()
+                        .frame(height: 60)
+                }
+                .safeAreaInset(edge: .leading) {
+                    EmptyView()
+                        .frame(width: 8)
                 }
                 // turn it on if you want to change the camera position on app start and detect location changes
                 //                .onChange(of: coreLocationViewModel.latitude) {
