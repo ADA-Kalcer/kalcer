@@ -27,6 +27,8 @@ struct MapAnnotationComponent: View {
                         Color.arcaPrimary :
                             bookmarkPatungViewModel.isBookmarked(patung) ?
                         Color.arcaDark :
+                            patung.category1 == "ritual" ?
+                        Color.arcaGold :
                             Color.arcaSecondary
                     )
                     .stroke(Color.white, lineWidth: 2)
