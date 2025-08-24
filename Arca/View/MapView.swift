@@ -17,6 +17,8 @@ struct MapView: View {
     
     @AppStorage("tourMode") var tourModeShowAgain: Bool = true
     
+    @State private var activeSheet: ActiveSheet?
+    
     @State private var searchQuery = ""
     @State private var searchSheet = false
     @State private var detailSheet = false
@@ -34,6 +36,8 @@ struct MapView: View {
             span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
         )
     )
+    
+    @State private var proximityTriggeredPatungId: UUID?
     
     var body: some View {
         NavigationView {
@@ -107,136 +111,188 @@ struct MapView: View {
                 }
                 
             }
+            .onChange(of: tourModeState) { _, isEnabled in
+                if isEnabled {
+                    coreLocationViewModel.startUpdatingLocation()
+                } else {
+                    coreLocationViewModel.stopUpdatingLocation()
+                }
+            }
+            .onChange(of: coreLocationViewModel.longitude) {
+                handleLocationUpdate()
+            }
         }
         .onAppear {
             Task {
                 try await patungViewModel.getPatungs()
-                searchSheet = true
+                // Set the initial sheet to be the search sheet
+                activeSheet = .search
             }
         }
-        .sheet(isPresented: $searchSheet) {
-            SearchSheetComponent(
-                patungViewModel: patungViewModel,
-                recentPatungViewModel: recentPatungViewModel,
-                recentSearchViewModel: recentSearchViewModel,
-                bookmarkPatungViewModel: bookmarkPatungViewModel,
-                sheetPresentation: $selection,
-                selectedPatung: $selectedPatung,
-                searchSheet: $searchSheet,
-                recentSheet: $recentSheet,
-                recentSource: $recentSource,
-                cameraPosition: $position,
-                bookmarkSheet: $bookmarkSheet
-            )
-            .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
-            .presentationDragIndicator(.visible)
-            .presentationBackground(.regularMaterial)
-            .presentationBackgroundInteraction(.enabled)
-            .interactiveDismissDisabled(true)
-        }
-        .sheet(item: $selectedPatung) { patung in
-            NavigationView {
-                ZStack {
-                    PatungDetailView(
-                        patung: patung,
-                        patungViewModel: patungViewModel,
-                        bookmarkPatungViewModel: bookmarkPatungViewModel
-                    )
-                    
-                    VStack {
-                        Spacer()
-                        SecondarySheetComponent(
-                            bookmarkPatungViewModel: bookmarkPatungViewModel,
-                            selectedPatung: patung
-                        )
-                            .padding(.bottom, 10)
-                    }
-                    
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            selectedPatung = nil
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-                    }
-                }
-                
+        // Replace ALL of your existing .sheet modifiers with this single one
+        .sheet(item: $activeSheet, onDismiss: {
+            // This onDismiss handles the swipe-down gesture.
+            // If the sheet is dismissed to nil, and it wasn't the search sheet,
+            // we want to bring the search sheet back.
+            if activeSheet == nil {
+                activeSheet = .search
             }
-            .presentationDetents([.medium, .large])
-            .presentationDragIndicator(.visible)
-            .onAppear {
-                searchSheet = false
-            }
-            .onDisappear {
-                searchSheet = true
-            }
-            
-        }
-        .sheet(isPresented: $recentSheet) {
-            NavigationView {
-                RecentListView(
+        }) { sheet in
+            switch sheet {
+            case .search:
+                SearchSheetComponent(
+                    patungViewModel: patungViewModel,
                     recentPatungViewModel: recentPatungViewModel,
                     recentSearchViewModel: recentSearchViewModel,
-                    recentSource: $recentSource,
-                    selectedPatung: $selectedPatung
-                )
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                recentSheet = false
-                            } label: {
-                                Image(systemName: "xmark")
-                            }
-                        }
-                    }
-            }
-            
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-            .presentationBackground(.regularMaterial)
-            .presentationBackgroundInteraction(.enabled)
-            .interactiveDismissDisabled(true)
-            .onAppear {
-                searchSheet = false
-            }
-            .onDisappear {
-                searchSheet = true
-            }
-            
-        }
-        .sheet(isPresented: $bookmarkSheet) {
-            NavigationView {
-                BookmarkListView(
                     bookmarkPatungViewModel: bookmarkPatungViewModel,
-                    selectedPatung: $selectedPatung
+                    sheetPresentation: $selection,
+                    selectedPatung: $selectedPatung,
+                    searchSheet: Binding(
+                        get: { self.activeSheet == .search },
+                        set: { if !$0 { self.activeSheet = nil } }
+                    ),
+                    recentSheet: Binding(
+                        get: { self.activeSheet == .recent },
+                        set: { if $0 { self.activeSheet = .recent } }
+                    ),
+                    recentSource: $recentSource,
+                    cameraPosition: $position,
+                    bookmarkSheet: Binding(
+                        get: { self.activeSheet == .bookmark },
+                        set: { if $0 { self.activeSheet = .bookmark } }
+                    )
                 )
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                bookmarkSheet = false
-                            } label: {
-                                Image(systemName: "xmark")
+                .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
+                .presentationDragIndicator(.visible)
+                .presentationBackground(.regularMaterial)
+                .presentationBackgroundInteraction(.enabled)
+                .interactiveDismissDisabled(true)
+            case .patungDetail:
+                if let patung = selectedPatung {
+                    NavigationView {
+                        ZStack {
+                            PatungDetailView(
+                                patung: patung,
+                                patungViewModel: patungViewModel,
+                                bookmarkPatungViewModel: bookmarkPatungViewModel
+                            )
+                            
+                            VStack {
+                                Spacer()
+                                SecondarySheetComponent(
+                                    bookmarkPatungViewModel: bookmarkPatungViewModel,
+                                    selectedPatung: patung
+                                )
+                                    .padding(.bottom, 10)
+                            }
+                        }
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button {
+                                    // 1. Explicitly return to the search sheet
+                                    activeSheet = .search
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
                             }
                         }
                     }
+                    .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.visible)
+                }
+            case .recent:
+                NavigationView {
+                    RecentListView(
+                        recentPatungViewModel: recentPatungViewModel,
+                        recentSearchViewModel: recentSearchViewModel,
+                        recentSource: $recentSource,
+                        selectedPatung: $selectedPatung
+                    )
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button {
+                                    activeSheet = .search // Go back to search
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
+                            }
+                        }
+                }
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+            case .bookmark:
+                NavigationView {
+                    BookmarkListView(
+                        bookmarkPatungViewModel: bookmarkPatungViewModel,
+                        selectedPatung: $selectedPatung
+                    )
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button {
+                                    activeSheet = .search // Go back to search
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
+                            }
+                        }
+                }
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
             }
-            
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-            .presentationBackground(.regularMaterial)
-            .presentationBackgroundInteraction(.enabled)
-            .interactiveDismissDisabled(true)
-            .onAppear {
-                searchSheet = false
+        }
+        .onChange(of: selectedPatung) { _, newValue in
+            if newValue != nil {
+                activeSheet = .patungDetail
+            } else {
+                // 2. When selection is cleared, ensure we return to the search sheet
+                if activeSheet == .patungDetail {
+                    activeSheet = .search
+                }
             }
-            .onDisappear {
-                searchSheet = true
-            }
-            
         }
     }
+    
+    private func handleLocationUpdate() {
+            // Ensure Tour Mode is active and we have a user location
+            guard tourModeState,
+                  let userLatitude = coreLocationViewModel.latitude,
+                  let userLongitude = coreLocationViewModel.longitude else { return }
+
+            let userLocation = CLLocation(latitude: userLatitude, longitude: userLongitude)
+
+            // Reset the proximity trigger if the user has moved more than 100 meters away from the last shown patung
+            if let triggeredId = proximityTriggeredPatungId,
+               let lastShownPatung = patungViewModel.patungs.first(where: { $0.id == triggeredId }),
+               let lat = lastShownPatung.latitude, let lon = lastShownPatung.longitude {
+                let patungLocation = CLLocation(latitude: Double(lat), longitude: Double(lon))
+                if userLocation.distance(from: patungLocation) > 100 {
+                    proximityTriggeredPatungId = nil
+                }
+            }
+            
+            // Don't show a new sheet if one is already presented
+            guard selectedPatung == nil else { return }
+
+            // Find the closest patung within 50 meters
+            for patung in patungViewModel.patungs {
+                guard let patungLatitude = patung.latitude,
+                      let patungLongitude = patung.longitude else { continue }
+                
+                // Ensure this patung hasn't been triggered recently
+                if patung.id == proximityTriggeredPatungId { continue }
+
+                let patungLocation = CLLocation(latitude: Double(patungLatitude), longitude: Double(patungLongitude))
+                let distance = userLocation.distance(from: patungLocation)
+
+                // If within 50 meters, select the patung and break the loop
+                if distance <= 50 {
+                    selectedPatung = patung
+                    proximityTriggeredPatungId = patung.id
+                    break
+                }
+            }
+        }
+    
 }
 
 #Preview {

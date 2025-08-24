@@ -58,4 +58,12 @@ class CoreLocationViewModel: NSObject, ObservableObject, CLLocationManagerDelega
     func stopLocation() {
         locationManager.stopUpdatingLocation()
     }
+    
+    func startUpdatingLocation() {
+            locationManager.startUpdatingLocation()
+        }
+        
+    func stopUpdatingLocation() {
+            locationManager.stopUpdatingLocation()
+        }
 }
