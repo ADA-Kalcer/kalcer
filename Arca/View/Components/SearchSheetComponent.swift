@@ -31,7 +31,7 @@ struct SearchSheetComponent: View {
                 HStack(spacing: 10) {
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundStyle(Color.rgb(red: 127, green: 128, blue: 131))
+                            .foregroundStyle(.secondary)
                         
                         TextField("Search Patung", text: $patungViewModel.searchText)
                             .bold()
@@ -172,7 +172,7 @@ struct SearchSheetComponent: View {
                                         VStack {
                                             List {
                                                 ForEach(recentSearchViewModel.recentSearch.prefix(3)) { patung in
-                                                    SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address")
+                                                    SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address", withSuffix: false)
                                                         .onTapGesture {
                                                             selectedPatung = patung
                                                             recentSearchViewModel.addRecentSearch(patung)

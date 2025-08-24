@@ -24,31 +24,23 @@ struct MapAnnotationComponent: View {
                 Circle()
                     .fill(
                         patung.id == selectedPatung?.id ?
-                        Color.rgb(red: 62, green: 127, blue: 138) :
+                        Color.arcaPrimary :
                             bookmarkPatungViewModel.isBookmarked(patung) ?
-                        Color.rgb(red: 249, green: 249, blue: 249) :
-                            Color.rgb(red: 169, green: 211, blue: 197)
+                        Color.arcaDark :
+                            Color.arcaSecondary
                     )
                     .stroke(Color.white, lineWidth: 2)
                 
                 if bookmarkPatungViewModel.isBookmarked(patung) {
                     Image(systemName: "bookmark.fill")
-                        .foregroundStyle(Color.rgb(red: 62, green: 127, blue: 138))
-                        .padding(5)
+                        .foregroundStyle(.arcaLight)
+                        .padding(8)
                 } else {
-                    if patung.category1 == "monumental" {
-                        Image("monument")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30)
-                            .padding(3)
-                    } else {
-                        Image("ritual")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30)
-                            .padding(3)
-                    }
+                    Image(patung.category1 == "monumental" ? "monument" : "ritual")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30)
+                        .padding(3)
                 }
                 
             }

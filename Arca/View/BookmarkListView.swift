@@ -21,7 +21,7 @@ struct BookmarkListView: View {
             VStack {
                 List {
                     ForEach(bookmarkPatungViewModel.bookmarkPatungs) { patung in
-                        SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address", icon: "bookmark")
+                        SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address", icon: "bookmark", withSuffix: false)
                             .onTapGesture {
                                 bookmarkSheet = false
                                 afterDetailDismiss = .bookmark

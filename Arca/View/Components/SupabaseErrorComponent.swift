@@ -25,13 +25,20 @@ struct SupabaseErrorComponent: View {
             .foregroundColor(.secondary)
             .multilineTextAlignment(.center)
             
-            Button("Retry") {
+            Button {
                 Task {
                     try await patungViewModel.getPatungs()
                     searchSheet = true
                 }
+            } label: {
+                Text("Retry")
+                    .bold()
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 40)
+                    .padding(.vertical, 10)
+                    .background(.arcaPrimary)
+                    .clipShape(.capsule)
             }
-            .buttonStyle(.borderedProminent)
         }
         .onAppear {
             searchSheet = false

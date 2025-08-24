@@ -23,7 +23,7 @@ struct RecentListView: View {
             VStack {
                 List {
                     ForEach(recentSource == .annotate ? recentPatungViewModel.recentPatungs : recentSearchViewModel.recentSearch) { patung in
-                        SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address")
+                        SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address", withSuffix: false)
                             .onTapGesture {
                                 recentSheet = false
                                 afterDetailDismiss = .recent

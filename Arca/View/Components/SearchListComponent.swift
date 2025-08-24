@@ -11,12 +11,12 @@ struct SearchListComponent: View {
     @State var title: String
     @State var subtitle: String
     @State var icon: String? = "magnifyingglass"
-    @State var withSuffix: Bool = true
+    @State var withSuffix: Bool
     
     var body: some View {
         HStack {
             Image(systemName: icon ?? "magnifyingglass")
-                .foregroundStyle(Color.blue)
+                .foregroundStyle(.arcaPrimary)
                 .font(Font.title)
             Spacer()
             
@@ -44,5 +44,5 @@ struct SearchListComponent: View {
 }
 
 #Preview {
-    SearchListComponent(title: "Garuda Wisnu Kencana", subtitle: "Uluwatu Street")
+    SearchListComponent(title: "Garuda Wisnu Kencana", subtitle: "Uluwatu Street", withSuffix: false)
 }

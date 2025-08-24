@@ -20,18 +20,18 @@ struct SecondarySheetComponent: View {
             } label: {
                 Image(systemName: bookmarkPatungViewModel.isBookmarked(selectedPatung) ? "bookmark.fill" : "bookmark")
                     .font(.title2)
-                    .foregroundStyle(Color.rgb(red: 64, green: 64, blue: 1))
+                    .foregroundStyle(.arcaDark)
+                    .padding()
             }
-            .padding()
             
             Button {
                 isOpeningMap.toggle()
             } label: {
                 Image(systemName: "car")
                     .font(.title2)
-                    .foregroundStyle(Color.rgb(red: 64, green: 64, blue: 1))
+                    .foregroundStyle(.arcaDark)
+                    .padding()
             }
-            .padding()
             .confirmationDialog("Where would you like to open the map?", isPresented: $isOpeningMap) {
                 Button {
                     let coordinate = CLLocationCoordinate2D(latitude: Double(selectedPatung.latitude ?? 0), longitude: Double(selectedPatung.longitude ?? 0))
