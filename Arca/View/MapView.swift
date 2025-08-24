@@ -181,9 +181,11 @@ struct MapView: View {
                         break
                     case .recent:
                         recentSheet = true
+                        afterDetailDismiss = .search
                         break
                     case .bookmark:
                         bookmarkSheet = true
+                        afterDetailDismiss = .search
                         break
                     default:
                         break
