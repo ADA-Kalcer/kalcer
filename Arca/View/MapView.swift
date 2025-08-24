@@ -26,11 +26,12 @@ struct MapView: View {
     @State private var recentSheet = false
     @State private var recentSource: RecentSource = .search
     @State private var bookmarkSheet = false
+    @State private var afterDetailDismiss: Sheet = .search
     @State private var selectedPatung: Patung?
     @State private var selection: PresentationDetent = .height(80)
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
+            center: CLLocationCoordinate2D(latitude: -8.5, longitude: 115.1),
             span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
         )
     )
@@ -54,18 +55,26 @@ struct MapView: View {
                     
                     UserAnnotation()
                 }
-// turn it on if you want to change the camera position on app start and detect location changes
-//                .onChange(of: coreLocationViewModel.latitude) {
-//                    position = .region(
-//                        MKCoordinateRegion(
-//                            center: CLLocationCoordinate2D(
-//                                latitude: coreLocationViewModel.latitude ?? 0,
-//                                longitude: coreLocationViewModel.longitude ?? 0
-//                            ),
-//                            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-//                        )
-//                    )
-//                }
+                .safeAreaInset(edge: .bottom) {
+                    EmptyView()
+                        .frame(height: 60)
+                }
+                .safeAreaInset(edge: .leading) {
+                    EmptyView()
+                        .frame(width: 8)
+                }
+                // turn it on if you want to change the camera position on app start and detect location changes
+                //                .onChange(of: coreLocationViewModel.latitude) {
+                //                    position = .region(
+                //                        MKCoordinateRegion(
+                //                            center: CLLocationCoordinate2D(
+                //                                latitude: coreLocationViewModel.latitude ?? 0,
+                //                                longitude: coreLocationViewModel.longitude ?? 0
+                //                            ),
+                //                            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                //                        )
+                //                    )
+                //                }
                 
                 if !patungViewModel.isLoading || selection != .large {
                     SecondaryNavigationComponent(
@@ -149,7 +158,7 @@ struct MapView: View {
                             bookmarkPatungViewModel: bookmarkPatungViewModel,
                             selectedPatung: patung
                         )
-                            .padding(.bottom, 10)
+                        .padding(.bottom, 10)
                     }
                     
                 }
@@ -162,17 +171,29 @@ struct MapView: View {
                         }
                     }
                 }
-                
+                .onAppear {
+                    searchSheet = false
+                }
+                .onDisappear {
+                    switch afterDetailDismiss {
+                    case .search:
+                        searchSheet = true
+                        break
+                    case .recent:
+                        recentSheet = true
+                        afterDetailDismiss = .search
+                        break
+                    case .bookmark:
+                        bookmarkSheet = true
+                        afterDetailDismiss = .search
+                        break
+                    default:
+                        break
+                    }
+                }
             }
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
-            .onAppear {
-                searchSheet = false
-            }
-            .onDisappear {
-                searchSheet = true
-            }
-            
         }
         .sheet(isPresented: $recentSheet) {
             NavigationView {
@@ -180,61 +201,67 @@ struct MapView: View {
                     recentPatungViewModel: recentPatungViewModel,
                     recentSearchViewModel: recentSearchViewModel,
                     recentSource: $recentSource,
-                    selectedPatung: $selectedPatung
+                    selectedPatung: $selectedPatung,
+                    recentSheet: $recentSheet,
+                    afterDetailDismiss: $afterDetailDismiss,
+                    cameraPosition: $position
                 )
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                recentSheet = false
-                            } label: {
-                                Image(systemName: "xmark")
-                            }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            recentSheet = false
+                        } label: {
+                            Image(systemName: "xmark")
                         }
                     }
+                }
+                .onAppear {
+                    searchSheet = false
+                }
+                .onDisappear {
+                    if selectedPatung == nil {
+                        searchSheet = true
+                    }
+                }
             }
-            
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled)
-            .interactiveDismissDisabled(true)
-            .onAppear {
-                searchSheet = false
-            }
-            .onDisappear {
-                searchSheet = true
-            }
-            
+//            .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $bookmarkSheet) {
             NavigationView {
                 BookmarkListView(
                     bookmarkPatungViewModel: bookmarkPatungViewModel,
-                    selectedPatung: $selectedPatung
+                    selectedPatung: $selectedPatung,
+                    bookmarkSheet: $bookmarkSheet,
+                    afterDetailDismiss: $afterDetailDismiss,
+                    cameraPosition: $position
                 )
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                bookmarkSheet = false
-                            } label: {
-                                Image(systemName: "xmark")
-                            }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            bookmarkSheet = false
+                        } label: {
+                            Image(systemName: "xmark")
                         }
                     }
+                }
+                .onAppear {
+                    searchSheet = false
+                }
+                .onDisappear {
+                    if selectedPatung == nil {
+                        searchSheet = true
+                    }
+                }
             }
-            
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled)
-            .interactiveDismissDisabled(true)
-            .onAppear {
-                searchSheet = false
-            }
-            .onDisappear {
-                searchSheet = true
-            }
-            
+//            .interactiveDismissDisabled(true)
         }
     }
 }

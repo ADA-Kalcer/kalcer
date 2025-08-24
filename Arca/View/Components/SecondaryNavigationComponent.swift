@@ -24,12 +24,12 @@ struct SecondaryNavigationComponent: View {
             } label: {
                 Image(systemName: "headphones")
                     .font(.title2)
-                    .foregroundStyle(tourModeState ? .white : Color.rgb(red: 64, green: 64, blue: 1))
+                    .foregroundStyle(tourModeState ? .white : .arcaDark)
                     .padding()
             }
             .glassEffect(
                 tourModeState ?
-                    .regular.tint(.blue.opacity(0.8)).interactive() :
+                    .regular.tint(.arcaPrimary.opacity(0.8)).interactive() :
                         .regular.interactive()
             )
             
@@ -51,7 +51,7 @@ struct SecondaryNavigationComponent: View {
             } label: {
                 Image(systemName: locationState ? "location.fill" : "location")
                     .font(.title2)
-                    .foregroundStyle(locationState ? .blue : Color.rgb(red: 64, green: 64, blue: 1))
+                    .foregroundStyle(locationState ? .arcaPrimary : .arcaDark)
                     .padding()
             }
             .glassEffect(.regular.interactive())

@@ -136,28 +136,28 @@ struct PatungDetailView: View {
 
 
 
-struct DetailCard: View {
-    let title: String
-    let value: String
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .textCase(.uppercase)
-            
-            Text(value)
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .multilineTextAlignment(.leading)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(8)
-    }
-}
+//struct DetailCard: View {
+//    let title: String
+//    let value: String
+//
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 4) {
+//            Text(title)
+//                .font(.caption)
+//                .foregroundColor(.secondary)
+//                .textCase(.uppercase)
+//
+//            Text(value)
+//                .font(.subheadline)
+//                .fontWeight(.medium)
+//                .multilineTextAlignment(.leading)
+//        }
+//        .frame(maxWidth: .infinity, alignment: .leading)
+//        .padding()
+//        .background(Color(.systemGray6))
+//        .cornerRadius(8)
+//    }
+//}
 
 struct ButtonCard: View {
     let title: String
@@ -180,22 +180,16 @@ struct ButtonCard: View {
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                 }
-                Spacer()
-                    .frame(width: 10)
                 
                 Spacer()
                 
-                Spacer()
-                    .frame(width: 10)
-                VStack {
-                    Image(systemName: icon)
-                        .font(Font.system(size: 26, weight: .bold))
-                }
+                Image(systemName: icon)
+                    .font(Font.system(size: 26, weight: .bold))
                 
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
-            .background(Color.rgb(red: 217, green: 217, blue: 217))
+            .background(.secondary)
             .cornerRadius(20)
             .contentShape(Rectangle())
         }

@@ -124,7 +124,6 @@ struct PhotoFullView: View {
                                     photo = nil
                                 } label: {
                                     Image(systemName: "xmark")
-//                                        .foregroundColor(.white)
                                         .font(.title2)
                                         .clipShape(Circle())
                                 }

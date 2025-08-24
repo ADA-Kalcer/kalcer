@@ -31,7 +31,7 @@ struct SearchSheetComponent: View {
                 HStack(spacing: 10) {
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundStyle(Color.rgb(red: 127, green: 128, blue: 131))
+                            .foregroundStyle(.secondary)
                         
                         TextField("Search Patung", text: $patungViewModel.searchText)
                             .bold()
@@ -103,7 +103,7 @@ struct SearchSheetComponent: View {
                                     .onTapGesture {
                                         searchSheet = false
                                         recentSource = .annotate
-                                        recentSheet.toggle()
+                                        recentSheet = true
                                     }
                                     .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .center))
                                     
@@ -114,10 +114,10 @@ struct SearchSheetComponent: View {
                                                 .onTapGesture {
                                                     selectedPatung = patung
                                                     cameraPosition = MapUtils.zoomMapCamera(
-                                                        latitude: Double(selectedPatung?.latitude ?? 0) - 0.0035,
+                                                        latitude: Double(selectedPatung?.latitude ?? 0),
                                                         longitude: Double(selectedPatung?.longitude ?? 0)
                                                     )
-                                                    searchSheet.toggle()
+                                                    searchSheet = false
                                                 }
                                         }
                                     }
@@ -132,7 +132,7 @@ struct SearchSheetComponent: View {
                                     }
                                     .onTapGesture {
                                         searchSheet = false
-                                        bookmarkSheet.toggle()
+                                        bookmarkSheet = true
                                     }
                                     .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .center))
                                     
@@ -140,8 +140,12 @@ struct SearchSheetComponent: View {
                                         ForEach(bookmarkPatungViewModel.bookmarkPatungs.prefix(4)) { patung in
                                             SearchCardComponent(title: patung.name, subtitle: patung.address ?? "No address", image: patung.displayImageUrl ?? "")
                                                 .onTapGesture {
+                                                    searchSheet = false
                                                     selectedPatung = patung
-                                                    searchSheet.toggle()
+                                                    cameraPosition = MapUtils.zoomMapCamera(
+                                                        latitude: Double(selectedPatung?.latitude ?? 0),
+                                                        longitude: Double(selectedPatung?.longitude ?? 0)
+                                                    )
                                                 }
                                         }
                                     }
@@ -162,13 +166,13 @@ struct SearchSheetComponent: View {
                                         .onTapGesture {
                                             searchSheet = false
                                             recentSource = .search
-                                            recentSheet.toggle()
+                                            recentSheet = true
                                         }
                                         
                                         VStack {
                                             List {
                                                 ForEach(recentSearchViewModel.recentSearch.prefix(3)) { patung in
-                                                    SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address")
+                                                    SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address", withSuffix: false)
                                                         .onTapGesture {
                                                             selectedPatung = patung
                                                             recentSearchViewModel.addRecentSearch(patung)
@@ -176,7 +180,7 @@ struct SearchSheetComponent: View {
                                                                 latitude: Double(selectedPatung?.latitude ?? 0),
                                                                 longitude: Double(selectedPatung?.longitude ?? 0)
                                                             )
-                                                            searchSheet.toggle()
+                                                            searchSheet = false
                                                         }
                                                 }
                                                 .onDelete(perform: deleteRecentSearch)
@@ -210,7 +214,7 @@ struct SearchSheetComponent: View {
                                                                 latitude: Double(selectedPatung?.latitude ?? 0),
                                                                 longitude: Double(selectedPatung?.longitude ?? 0)
                                                             )
-                                                            searchSheet.toggle()
+                                                            searchSheet = false
                                                         }
                                                 }
                                                 

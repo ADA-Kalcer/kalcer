@@ -37,8 +37,9 @@ struct TourModeConfirmationComponent: View {
                     .foregroundStyle(.white)
                     .padding(.horizontal, 40)
                     .padding(.vertical, 10)
+                    .background(.arcaPrimary)
+                    .clipShape(.capsule)
             }
-            .buttonStyle(.borderedProminent)
             
             Button {
                 tourModeShowAgain = false
@@ -46,6 +47,7 @@ struct TourModeConfirmationComponent: View {
                 tourModeState = true
             } label: {
                 Text("Don't show me again")
+                    .foregroundStyle(.arcaPrimary)
             }
         }
         .padding()
