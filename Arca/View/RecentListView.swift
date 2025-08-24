@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct RecentListView: View {
     @ObservedObject var recentPatungViewModel: RecentPatungViewModel
@@ -15,6 +16,7 @@ struct RecentListView: View {
     @Binding var selectedPatung: Patung?
     @Binding var recentSheet: Bool
     @Binding var afterDetailDismiss: Sheet
+    @Binding var cameraPosition: MapCameraPosition
     
     var body: some View {
         ScrollView {
@@ -26,6 +28,10 @@ struct RecentListView: View {
                                 recentSheet = false
                                 afterDetailDismiss = .recent
                                 selectedPatung = patung
+                                cameraPosition = MapUtils.zoomMapCamera(
+                                    latitude: Double(selectedPatung?.latitude ?? 0) - 0.0035,
+                                    longitude: Double(selectedPatung?.longitude ?? 0)
+                                )
                             }
                     }
                     .onDelete(perform: deleteRecent)
@@ -63,6 +69,12 @@ struct RecentListView: View {
         recentSource: .constant(.annotate),
         selectedPatung: .constant(nil),
         recentSheet: .constant(false),
-        afterDetailDismiss: .constant(.recent)
+        afterDetailDismiss: .constant(.recent),
+        cameraPosition: .constant(MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
+                span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
+            )
+        )),
     )
 }

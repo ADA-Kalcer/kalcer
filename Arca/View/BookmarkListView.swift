@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct BookmarkListView: View {
     @ObservedObject var bookmarkPatungViewModel: BookmarkPatungViewModel
@@ -13,6 +14,7 @@ struct BookmarkListView: View {
     @Binding var selectedPatung: Patung?
     @Binding var bookmarkSheet: Bool
     @Binding var afterDetailDismiss: Sheet
+    @Binding var cameraPosition: MapCameraPosition
     
     var body: some View {
         ScrollView {
@@ -24,6 +26,10 @@ struct BookmarkListView: View {
                                 bookmarkSheet = false
                                 afterDetailDismiss = .bookmark
                                 selectedPatung = patung
+                                cameraPosition = MapUtils.zoomMapCamera(
+                                    latitude: Double(selectedPatung?.latitude ?? 0) - 0.0035,
+                                    longitude: Double(selectedPatung?.longitude ?? 0)
+                                )
                             }
                     }
                     .onDelete(perform: deleteBookmark)
@@ -52,6 +58,12 @@ struct BookmarkListView: View {
         bookmarkPatungViewModel: BookmarkPatungViewModel(),
         selectedPatung: .constant(nil),
         bookmarkSheet: .constant(false),
-        afterDetailDismiss: .constant(.bookmark)
+        afterDetailDismiss: .constant(.bookmark),
+        cameraPosition: .constant(MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
+                span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
+            )
+        ))
     )
 }

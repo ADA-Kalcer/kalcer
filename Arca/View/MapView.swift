@@ -193,7 +193,8 @@ struct MapView: View {
                     recentSource: $recentSource,
                     selectedPatung: $selectedPatung,
                     recentSheet: $recentSheet,
-                    afterDetailDismiss: $afterDetailDismiss
+                    afterDetailDismiss: $afterDetailDismiss,
+                    cameraPosition: $position
                 )
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -225,7 +226,8 @@ struct MapView: View {
                     bookmarkPatungViewModel: bookmarkPatungViewModel,
                     selectedPatung: $selectedPatung,
                     bookmarkSheet: $bookmarkSheet,
-                    afterDetailDismiss: $afterDetailDismiss
+                    afterDetailDismiss: $afterDetailDismiss,
+                    cameraPosition: $position
                 )
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {

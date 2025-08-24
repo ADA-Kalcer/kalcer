@@ -142,6 +142,10 @@ struct SearchSheetComponent: View {
                                                 .onTapGesture {
                                                     searchSheet = false
                                                     selectedPatung = patung
+                                                    cameraPosition = MapUtils.zoomMapCamera(
+                                                        latitude: Double(selectedPatung?.latitude ?? 0) - 0.0035,
+                                                        longitude: Double(selectedPatung?.longitude ?? 0)
+                                                    )
                                                 }
                                         }
                                     }
