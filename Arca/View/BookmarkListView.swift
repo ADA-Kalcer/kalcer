@@ -11,6 +11,8 @@ struct BookmarkListView: View {
     @ObservedObject var bookmarkPatungViewModel: BookmarkPatungViewModel
     
     @Binding var selectedPatung: Patung?
+    @Binding var bookmarkSheet: Bool
+    @Binding var afterDetailDismiss: Sheet
     
     var body: some View {
         ScrollView {
@@ -19,6 +21,8 @@ struct BookmarkListView: View {
                     ForEach(bookmarkPatungViewModel.bookmarkPatungs) { patung in
                         SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address", icon: "bookmark")
                             .onTapGesture {
+                                bookmarkSheet = false
+                                afterDetailDismiss = .bookmark
                                 selectedPatung = patung
                             }
                     }
@@ -46,6 +50,8 @@ struct BookmarkListView: View {
 #Preview {
     BookmarkListView(
         bookmarkPatungViewModel: BookmarkPatungViewModel(),
-        selectedPatung: .constant(nil)
+        selectedPatung: .constant(nil),
+        bookmarkSheet: .constant(false),
+        afterDetailDismiss: .constant(.bookmark)
     )
 }

@@ -103,7 +103,7 @@ struct SearchSheetComponent: View {
                                     .onTapGesture {
                                         searchSheet = false
                                         recentSource = .annotate
-                                        recentSheet.toggle()
+                                        recentSheet = true
                                     }
                                     .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .center))
                                     
@@ -117,7 +117,7 @@ struct SearchSheetComponent: View {
                                                         latitude: Double(selectedPatung?.latitude ?? 0) - 0.0035,
                                                         longitude: Double(selectedPatung?.longitude ?? 0)
                                                     )
-                                                    searchSheet.toggle()
+                                                    searchSheet = false
                                                 }
                                         }
                                     }
@@ -132,7 +132,7 @@ struct SearchSheetComponent: View {
                                     }
                                     .onTapGesture {
                                         searchSheet = false
-                                        bookmarkSheet.toggle()
+                                        bookmarkSheet = true
                                     }
                                     .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .center))
                                     
@@ -140,8 +140,8 @@ struct SearchSheetComponent: View {
                                         ForEach(bookmarkPatungViewModel.bookmarkPatungs.prefix(4)) { patung in
                                             SearchCardComponent(title: patung.name, subtitle: patung.address ?? "No address", image: patung.displayImageUrl ?? "")
                                                 .onTapGesture {
+                                                    searchSheet = false
                                                     selectedPatung = patung
-                                                    searchSheet.toggle()
                                                 }
                                         }
                                     }
@@ -162,7 +162,7 @@ struct SearchSheetComponent: View {
                                         .onTapGesture {
                                             searchSheet = false
                                             recentSource = .search
-                                            recentSheet.toggle()
+                                            recentSheet = true
                                         }
                                         
                                         VStack {
@@ -176,7 +176,7 @@ struct SearchSheetComponent: View {
                                                                 latitude: Double(selectedPatung?.latitude ?? 0),
                                                                 longitude: Double(selectedPatung?.longitude ?? 0)
                                                             )
-                                                            searchSheet.toggle()
+                                                            searchSheet = false
                                                         }
                                                 }
                                                 .onDelete(perform: deleteRecentSearch)
@@ -210,7 +210,7 @@ struct SearchSheetComponent: View {
                                                                 latitude: Double(selectedPatung?.latitude ?? 0),
                                                                 longitude: Double(selectedPatung?.longitude ?? 0)
                                                             )
-                                                            searchSheet.toggle()
+                                                            searchSheet = false
                                                         }
                                                 }
                                                 

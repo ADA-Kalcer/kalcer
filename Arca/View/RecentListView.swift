@@ -13,6 +13,8 @@ struct RecentListView: View {
     
     @Binding var recentSource: RecentSource
     @Binding var selectedPatung: Patung?
+    @Binding var recentSheet: Bool
+    @Binding var afterDetailDismiss: Sheet
     
     var body: some View {
         ScrollView {
@@ -21,6 +23,8 @@ struct RecentListView: View {
                     ForEach(recentSource == .annotate ? recentPatungViewModel.recentPatungs : recentSearchViewModel.recentSearch) { patung in
                         SearchListComponent(title: patung.name, subtitle: patung.address ?? "No address")
                             .onTapGesture {
+                                recentSheet = false
+                                afterDetailDismiss = .recent
                                 selectedPatung = patung
                             }
                     }
@@ -57,6 +61,8 @@ struct RecentListView: View {
         recentPatungViewModel: RecentPatungViewModel(),
         recentSearchViewModel: RecentSearchViewModel(),
         recentSource: .constant(.annotate),
-        selectedPatung: .constant(nil)
+        selectedPatung: .constant(nil),
+        recentSheet: .constant(false),
+        afterDetailDismiss: .constant(.recent)
     )
 }
