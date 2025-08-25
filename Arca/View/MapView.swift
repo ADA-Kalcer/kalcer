@@ -79,18 +79,27 @@ struct MapView: View {
                 //                }
                 
                 if !patungViewModel.isLoading || (selectedPatung == nil && selection != .large) || (selectedPatung != nil && detailSelection != .large) {
-                    SecondaryNavigationComponent(
-                        coreLocationViewModel: coreLocationViewModel,
-                        locationState: $currentLocationState,
-                        tourModeState: $tourModeState,
-                        showTourModeConfirmation: $showTourConfirmation,
-                        searchSheetDetent: $selection,
-                        cameraPosition: $position
-                    )
-                    .position(
-                        x: 350,
-                        y: 575 - ((selectedPatung == nil && selection == .fraction(0.4)) || (selectedPatung != nil && detailSelection == .medium) ? 250 : 0)
-                    )
+                    GeometryReader { geo in
+                        HStack {
+                            Spacer()
+                            
+                            VStack {
+                                Spacer()
+                                
+                                SecondaryNavigationComponent(
+                                    coreLocationViewModel: coreLocationViewModel,
+                                    locationState: $currentLocationState,
+                                    tourModeState: $tourModeState,
+                                    showTourModeConfirmation: $showTourConfirmation,
+                                    searchSheetDetent: $selection,
+                                    cameraPosition: $position
+                                )
+                            }
+                            .padding(.bottom, geo.size.height * ( selection == .height(80) ? 0.12 : 0.46))
+                        }
+                        .padding(.trailing, geo.size.width * 0.06)
+                    }
+                    
                 }
                 
                 if tourModeShowAgain && showTourConfirmation && tourModeState {
