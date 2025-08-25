@@ -15,7 +15,7 @@ struct SecondaryNavigationComponent: View {
     @Binding var showTourModeConfirmation: Bool
     @Binding var searchSheetDetent: PresentationDetent
     @Binding var cameraPosition: MapCameraPosition
-
+    
     
     var body: some View {
         VStack(spacing: 10) {
@@ -39,16 +39,18 @@ struct SecondaryNavigationComponent: View {
                     coreLocationViewModel.locationManager.requestWhenInUseAuthorization()
                 }
                 coreLocationViewModel.locationManager.requestLocation()
-                cameraPosition = MapCameraPosition.region(
-                    MKCoordinateRegion(
-                        center: CLLocationCoordinate2D(
-                            latitude: (coreLocationViewModel.latitude ?? 0) - (searchSheetDetent == .fraction(0.4) ? 0.004 : 0),
-                            longitude: coreLocationViewModel.longitude ?? 0
-                        ),
-                        span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-                    )
-                )
                 locationState = true
+                withAnimation {
+                    cameraPosition = MapCameraPosition.region(
+                        MKCoordinateRegion(
+                            center: CLLocationCoordinate2D(
+                                latitude: (coreLocationViewModel.latitude ?? 0) - (searchSheetDetent == .fraction(0.4) ? 0.004 : 0),
+                                longitude: coreLocationViewModel.longitude ?? 0
+                            ),
+                            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                        )
+                    )
+                }
             } label: {
                 Image(systemName: locationState ? "location.fill" : "location")
                     .font(.title2)
@@ -61,6 +63,21 @@ struct SecondaryNavigationComponent: View {
                     coreLocationViewModel.longitude != newValue.region?.center.longitude
                 {
                     locationState = false
+                }
+            }
+            .onChange(of: coreLocationViewModel.latitude) {
+                if locationState {
+                    withAnimation {
+                        cameraPosition = MapCameraPosition.region(
+                            MKCoordinateRegion(
+                                center: CLLocationCoordinate2D(
+                                    latitude: (coreLocationViewModel.latitude ?? 0) - (searchSheetDetent == .fraction(0.4) ? 0.004 : 0),
+                                    longitude: coreLocationViewModel.longitude ?? 0
+                                ),
+                                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                            )
+                        )
+                    }
                 }
             }
         }
