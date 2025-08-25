@@ -20,7 +20,34 @@ struct MapAnnotationComponent: View {
         let isRitual = patung.category1 == "ritual"
         let isBookmark = bookmarkPatungViewModel.isBookmarked(patung)
         
-        Button {
+        ZStack {
+            Circle()
+                .fill(
+                    annotationColor(isSelected: isSelected, isMonument: isMonument, isRitual: isRitual, isBookmark: isBookmark)
+                )
+                .stroke(Color.white, lineWidth: 3,)
+            
+            if isBookmark {
+                Image("bookmarkWhite")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 15)
+                    .padding(8)
+            } else if isMonument {
+                Image("monumentWhite")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 15)
+                    .padding(8)
+            } else if isRitual {
+                Image("ritualWhite")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20)
+                    .padding(5)
+            }
+        }
+        .onTapGesture {
             if selectedPatung != nil {
                 selectedPatung = nil
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -33,38 +60,10 @@ struct MapAnnotationComponent: View {
                 recentPatungViewModel.addRecentPatung(patung)
                 searchSheet = false
             }
-        } label: {
-            ZStack {
-                Circle()
-                    .fill(
-                        annotationColor(isSelected: isSelected, isMonument: isMonument, isRitual: isRitual, isBookmark: isBookmark)
-                    )
-                    .stroke(Color.white, lineWidth: 3,)
-                
-                if isBookmark {
-                    Image("bookmarkWhite")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 15)
-                        .padding(8)
-                } else if isMonument {
-                    Image("monumentWhite")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 15)
-                        .padding(8)
-                } else if isRitual {
-                    Image("ritualWhite")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 20)
-                        .padding(5)
-                }
-            }
-            .scaleEffect(isSelected ? 1.5 : 1.0)
-            .animation(.spring(response: 0.4, dampingFraction: 0.6,
-                               blendDuration: 0), value: isSelected)
         }
+        .scaleEffect(isSelected ? 1.5 : 1.0)
+        .animation(.spring(response: 0.4, dampingFraction: 0.6,
+                           blendDuration: 0), value: isSelected)
     }
     
     private func annotationColor(isSelected: Bool, isMonument: Bool, isRitual: Bool, isBookmark: Bool) -> Color {
@@ -75,7 +74,7 @@ struct MapAnnotationComponent: View {
             else if isMonument {
                 return Color.arcaPrimaryTinted
             } else if isRitual {
-                 return Color.arcaSecondaryTinted
+                return Color.arcaSecondaryTinted
             }
         } else {
             if isBookmark {
