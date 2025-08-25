@@ -13,6 +13,7 @@ struct SecondaryNavigationComponent: View {
     @Binding var locationState: Bool
     @Binding var tourModeState: Bool
     @Binding var showTourModeConfirmation: Bool
+    @Binding var searchSheetDetent: PresentationDetent
     @Binding var cameraPosition: MapCameraPosition
 
     
@@ -41,10 +42,10 @@ struct SecondaryNavigationComponent: View {
                 cameraPosition = MapCameraPosition.region(
                     MKCoordinateRegion(
                         center: CLLocationCoordinate2D(
-                            latitude: coreLocationViewModel.latitude ?? 0,
+                            latitude: (coreLocationViewModel.latitude ?? 0) - (searchSheetDetent == .fraction(0.4) ? 0.004 : 0),
                             longitude: coreLocationViewModel.longitude ?? 0
                         ),
-                        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                        span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
                     )
                 )
                 locationState = true
@@ -72,6 +73,7 @@ struct SecondaryNavigationComponent: View {
         locationState: .constant(true),
         tourModeState: .constant(true),
         showTourModeConfirmation: .constant(true),
+        searchSheetDetent: .constant(.medium),
         cameraPosition: .constant(MapCameraPosition.region(
             MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),

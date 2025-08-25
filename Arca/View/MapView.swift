@@ -28,11 +28,11 @@ struct MapView: View {
     @State private var bookmarkSheet = false
     @State private var afterDetailDismiss: Sheet = .search
     @State private var selectedPatung: Patung?
-    @State private var selection: PresentationDetent = .height(80)
+    @State private var selection: PresentationDetent = .fraction(0.4)
     @State private var detailSelection: PresentationDetent = .medium
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: -8.5, longitude: 115.1),
+            center: CLLocationCoordinate2D(latitude: -9, longitude: 115.1),
             span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
         )
     )
@@ -84,6 +84,7 @@ struct MapView: View {
                         locationState: $currentLocationState,
                         tourModeState: $tourModeState,
                         showTourModeConfirmation: $showTourConfirmation,
+                        searchSheetDetent: $selection,
                         cameraPosition: $position
                     )
                     .position(
@@ -208,6 +209,7 @@ struct MapView: View {
                 }
             }
             .presentationDetents([.height(80), .medium, .large], selection: $detailSelection)
+            .presentationBackgroundInteraction(.enabled)
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled)
