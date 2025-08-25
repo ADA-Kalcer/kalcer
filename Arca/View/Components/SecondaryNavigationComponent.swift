@@ -59,7 +59,7 @@ struct SecondaryNavigationComponent: View {
             }
             .glassEffect(.regular.interactive())
             .onChange(of: cameraPosition) { _, newValue in
-                if coreLocationViewModel.latitude != newValue.region?.center.latitude ||
+                if (coreLocationViewModel.latitude ?? 0) - (searchSheetDetent == .fraction(0.4) ? 0.004 : 0) != newValue.region?.center.latitude ||
                     coreLocationViewModel.longitude != newValue.region?.center.longitude
                 {
                     locationState = false
