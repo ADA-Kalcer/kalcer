@@ -20,6 +20,8 @@ struct PatungDetailView: View {
     @State private var selectedPhoto: PatungMedia?
     @State var isOpeningMap: Bool = false
     
+    @Binding var sheetPresentation: PresentationDetent
+    
     var body: some View {
         ScrollView{
             VStack(alignment: .leading, spacing: 30) {
@@ -257,6 +259,7 @@ struct DefaultCard: View {
             ]
         ),
         patungViewModel: PatungViewModel(),
-        bookmarkPatungViewModel: BookmarkPatungViewModel()
+        bookmarkPatungViewModel: BookmarkPatungViewModel(),
+        sheetPresentation: .constant(.medium)
     )
 }

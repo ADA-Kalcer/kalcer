@@ -29,6 +29,7 @@ struct MapView: View {
     @State private var afterDetailDismiss: Sheet = .search
     @State private var selectedPatung: Patung?
     @State private var selection: PresentationDetent = .height(80)
+    @State private var detailSelection: PresentationDetent = .medium
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: -8.5, longitude: 115.1),
@@ -48,7 +49,8 @@ struct MapView: View {
                                     bookmarkPatungViewModel: bookmarkPatungViewModel,
                                     patung: patung,
                                     selectedPatung: $selectedPatung,
-                                    searchSheet: $searchSheet)
+                                    searchSheet: $searchSheet
+                                )
                             }
                         }
                     }
@@ -76,7 +78,7 @@ struct MapView: View {
                 //                    )
                 //                }
                 
-                if !patungViewModel.isLoading || selection != .large {
+                if !patungViewModel.isLoading || selection != .large || selectedPatung == nil {
                     SecondaryNavigationComponent(
                         coreLocationViewModel: coreLocationViewModel,
                         locationState: $currentLocationState,
@@ -143,29 +145,39 @@ struct MapView: View {
             .presentationBackgroundInteraction(.enabled)
             .interactiveDismissDisabled(true)
         }
+        .onChange(of: selectedPatung) { oldValue, newValue in
+              if newValue != nil {
+                  detailSelection = .medium
+              }
+          }
         .sheet(item: $selectedPatung) { patung in
             NavigationView {
                 ZStack {
                     PatungDetailView(
                         patung: patung,
                         patungViewModel: patungViewModel,
-                        bookmarkPatungViewModel: bookmarkPatungViewModel
+                        bookmarkPatungViewModel: bookmarkPatungViewModel,
+                        sheetPresentation: $detailSelection,
                     )
                     
-                    VStack {
-                        Spacer()
-                        SecondarySheetComponent(
-                            bookmarkPatungViewModel: bookmarkPatungViewModel,
-                            selectedPatung: patung
-                        )
-                        .padding(.bottom, 10)
+                    if detailSelection != .height(80) {
+                        VStack {
+                            Spacer()
+                            SecondarySheetComponent(
+                                bookmarkPatungViewModel: bookmarkPatungViewModel,
+                                selectedPatung: patung
+                            )
+                            .padding(.bottom, 10)
+                        }
                     }
-                    
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             selectedPatung = nil
+                            DispatchQueue.main.async {
+                                detailSelection = .medium
+                            }
                         } label: {
                             Image(systemName: "xmark")
                         }
@@ -173,6 +185,9 @@ struct MapView: View {
                 }
                 .onAppear {
                     searchSheet = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        detailSelection = .medium
+                    }
                 }
                 .onDisappear {
                     switch afterDetailDismiss {
@@ -192,8 +207,10 @@ struct MapView: View {
                     }
                 }
             }
-            .presentationDetents([.medium, .large])
+            .presentationDetents([.height(80), .medium, .large], selection: $detailSelection)
             .presentationDragIndicator(.visible)
+            .presentationBackground(.regularMaterial)
+            .presentationBackgroundInteraction(.enabled)
         }
         .sheet(isPresented: $recentSheet) {
             NavigationView {
@@ -228,7 +245,6 @@ struct MapView: View {
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled)
-//            .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $bookmarkSheet) {
             NavigationView {
@@ -261,7 +277,6 @@ struct MapView: View {
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled)
-//            .interactiveDismissDisabled(true)
         }
     }
 }
