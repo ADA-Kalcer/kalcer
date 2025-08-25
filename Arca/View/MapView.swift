@@ -28,11 +28,11 @@ struct MapView: View {
     @State private var bookmarkSheet = false
     @State private var afterDetailDismiss: Sheet = .search
     @State private var selectedPatung: Patung?
-    @State private var selection: PresentationDetent = .height(80)
+    @State private var selection: PresentationDetent = .fraction(0.4)
     @State private var detailSelection: PresentationDetent = .medium
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: -8.5, longitude: 115.1),
+            center: CLLocationCoordinate2D(latitude: -9, longitude: 115.1),
             span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
         )
     )
@@ -79,17 +79,27 @@ struct MapView: View {
                 //                }
                 
                 if !patungViewModel.isLoading || (selectedPatung == nil && selection != .large) || (selectedPatung != nil && detailSelection != .large) {
-                    SecondaryNavigationComponent(
-                        coreLocationViewModel: coreLocationViewModel,
-                        locationState: $currentLocationState,
-                        tourModeState: $tourModeState,
-                        showTourModeConfirmation: $showTourConfirmation,
-                        cameraPosition: $position
-                    )
-                    .position(
-                        x: 350,
-                        y: 575 - ((selectedPatung == nil && selection == .fraction(0.4)) || (selectedPatung != nil && detailSelection == .medium) ? 250 : 0)
-                    )
+                    GeometryReader { geo in
+                        HStack {
+                            Spacer()
+                            
+                            VStack {
+                                Spacer()
+                                
+                                SecondaryNavigationComponent(
+                                    coreLocationViewModel: coreLocationViewModel,
+                                    locationState: $currentLocationState,
+                                    tourModeState: $tourModeState,
+                                    showTourModeConfirmation: $showTourConfirmation,
+                                    searchSheetDetent: $selection,
+                                    cameraPosition: $position
+                                )
+                            }
+                            .padding(.bottom, geo.size.height * ( selection == .height(80) ? 0.12 : 0.46))
+                        }
+                        .padding(.trailing, geo.size.width * 0.06)
+                    }
+                    
                 }
                 
                 if tourModeShowAgain && showTourConfirmation && tourModeState {
@@ -208,6 +218,7 @@ struct MapView: View {
                 }
             }
             .presentationDetents([.height(80), .medium, .large], selection: $detailSelection)
+            .presentationBackgroundInteraction(.enabled)
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled)
