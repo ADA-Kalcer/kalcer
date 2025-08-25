@@ -78,7 +78,7 @@ struct MapView: View {
                 //                    )
                 //                }
                 
-                if !patungViewModel.isLoading || selection != .large || selectedPatung == nil {
+                if !patungViewModel.isLoading || (selectedPatung == nil && selection != .large) || (selectedPatung != nil && detailSelection != .large) {
                     SecondaryNavigationComponent(
                         coreLocationViewModel: coreLocationViewModel,
                         locationState: $currentLocationState,
@@ -88,7 +88,7 @@ struct MapView: View {
                     )
                     .position(
                         x: 350,
-                        y: 575 - (selection == .fraction(0.4) ? 250 : 0)
+                        y: 575 - ((selectedPatung == nil && selection == .fraction(0.4)) || (selectedPatung != nil && detailSelection == .medium) ? 250 : 0)
                     )
                 }
                 
