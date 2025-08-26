@@ -39,6 +39,8 @@ struct MapView: View {
     
     @State private var proximityTriggeredPatungId: UUID?
     
+    @State private var patungPresentationQueue: [Patung] = []
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -130,14 +132,7 @@ struct MapView: View {
             }
         }
         // Replace ALL of your existing .sheet modifiers with this single one
-        .sheet(item: $activeSheet, onDismiss: {
-            // This onDismiss handles the swipe-down gesture.
-            // If the sheet is dismissed to nil, and it wasn't the search sheet,
-            // we want to bring the search sheet back.
-            if activeSheet == nil {
-                activeSheet = .search
-            }
-        }) { sheet in
+        .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .search:
                 SearchSheetComponent(
@@ -240,59 +235,80 @@ struct MapView: View {
                 .presentationDragIndicator(.visible)
             }
         }
-        .onChange(of: selectedPatung) { _, newValue in
-            if newValue != nil {
+        // 3. REPLACE your old onChange modifiers with these two.
+        .onChange(of: selectedPatung) { _, patung in
+            // This rule is simple: if a patung is selected, we MUST show the detail sheet.
+            if patung != nil {
                 activeSheet = .patungDetail
-            } else {
-                // 2. When selection is cleared, ensure we return to the search sheet
-                if activeSheet == .patungDetail {
-                    activeSheet = .search
-                }
+            }
+        }
+        .onChange(of: activeSheet) { oldValue, newValue in
+            // This is the cleanup and state synchronization logic.
+            if oldValue == .patungDetail && newValue != .patungDetail {
+                // The selection must be cleared when navigating away from the detail sheet.
+                selectedPatung = nil
+                
+                // After cleaning up, immediately try to present the next item in the queue.
+                presentNextPatungInQueue()
+            }
+
+            // RULE: If the detail sheet was dismissed by a swipe (newValue is nil),
+            // then we should return to the search sheet.
+            if oldValue == .patungDetail && newValue == nil {
+                activeSheet = .search
             }
         }
     }
     
     private func handleLocationUpdate() {
-            // Ensure Tour Mode is active and we have a user location
-            guard tourModeState,
-                  let userLatitude = coreLocationViewModel.latitude,
-                  let userLongitude = coreLocationViewModel.longitude else { return }
+        guard tourModeState,
+              let userLatitude = coreLocationViewModel.latitude,
+              let userLongitude = coreLocationViewModel.longitude else { return }
 
-            let userLocation = CLLocation(latitude: userLatitude, longitude: userLongitude)
+        let userLocation = CLLocation(latitude: userLatitude, longitude: userLongitude)
 
-            // Reset the proximity trigger if the user has moved more than 100 meters away from the last shown patung
-            if let triggeredId = proximityTriggeredPatungId,
-               let lastShownPatung = patungViewModel.patungs.first(where: { $0.id == triggeredId }),
-               let lat = lastShownPatung.latitude, let lon = lastShownPatung.longitude {
-                let patungLocation = CLLocation(latitude: Double(lat), longitude: Double(lon))
-                if userLocation.distance(from: patungLocation) > 100 {
-                    proximityTriggeredPatungId = nil
-                }
-            }
+        // --- LOGIC TO CLOSE SHEET (remains the same) ---
+        if activeSheet == .patungDetail,
+           let currentPatung = selectedPatung,
+           let patungLatitude = currentPatung.latitude,
+           let patungLongitude = currentPatung.longitude {
             
-            // Don't show a new sheet if one is already presented
-            guard selectedPatung == nil else { return }
-
-            // Find the closest patung within 50 meters
-            for patung in patungViewModel.patungs {
-                guard let patungLatitude = patung.latitude,
-                      let patungLongitude = patung.longitude else { continue }
-                
-                // Ensure this patung hasn't been triggered recently
-                if patung.id == proximityTriggeredPatungId { continue }
-
-                let patungLocation = CLLocation(latitude: Double(patungLatitude), longitude: Double(patungLongitude))
-                let distance = userLocation.distance(from: patungLocation)
-
-                // If within 50 meters, select the patung and break the loop
-                if distance <= 50 {
-                    selectedPatung = patung
-                    proximityTriggeredPatungId = patung.id
-                    break
-                }
+            let patungLocation = CLLocation(latitude: Double(patungLatitude), longitude: Double(patungLongitude))
+            
+            if userLocation.distance(from: patungLocation) > 50 {
+                activeSheet = .search
+                return // Exit early
             }
         }
-    
+
+        // --- LOGIC TO POPULATE QUEUE ---
+        // Find all patungs within the 50-meter radius
+        let nearbyPatungs = patungViewModel.patungs.filter { patung in
+            guard let lat = patung.latitude, let lon = patung.longitude else { return false }
+            let patungLocation = CLLocation(latitude: Double(lat), longitude: Double(lon))
+            // Ensure it's not the currently selected one
+            return userLocation.distance(from: patungLocation) <= 50 && patung.id != selectedPatung?.id
+        }
+
+        // Add new nearby patungs to the queue if they aren't already in it
+        for patung in nearbyPatungs {
+            if !patungPresentationQueue.contains(where: { $0.id == patung.id }) {
+                patungPresentationQueue.append(patung)
+            }
+        }
+
+        // --- ATTEMPT TO PRESENT FROM QUEUE ---
+        presentNextPatungInQueue()
+    }
+
+    private func presentNextPatungInQueue() {
+        // Only present if no detail sheet is currently active and the queue is not empty
+        if activeSheet != .patungDetail, !patungPresentationQueue.isEmpty {
+            // Dequeue the next patung and select it
+            selectedPatung = patungPresentationQueue.removeFirst()
+        }
+    }
+
 }
 
 #Preview {
