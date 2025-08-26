@@ -19,6 +19,11 @@ class CoreLocationViewModel: NSObject, ObservableObject, CLLocationManagerDelega
         super.init()
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
+        //        request location one time
+        //        self.locationManager.requestLocation()
+        
+        //        request location continously
+        self.locationManager.startUpdatingLocation()
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
