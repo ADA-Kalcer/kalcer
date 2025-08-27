@@ -63,5 +63,8 @@ fastlane/test_output
 
 .DS_Store
 
-#env
+# env
 *.xcconfig
+
+# Map simulation
+*.gpx

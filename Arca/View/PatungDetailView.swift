@@ -80,7 +80,7 @@ struct PatungDetailView: View {
                 }
                 
                 
-                if let story = patung.story {
+                if patung.story != nil {
                     VStack {
                         Text("Story Behind Patung")
                             .font(Font.title3.bold())
@@ -98,6 +98,7 @@ struct PatungDetailView: View {
             
         }
         .navigationTitle(patung.name)
+        .navigationSubtitle(patung.category1 == "monumental" ? "Monumental" : "Ritual")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             loadPatungMedia()
@@ -232,6 +233,7 @@ struct DefaultCard: View {
             artist: "Sample Artist",
             material: "Bronze",
             category1: "monumental",
+            audioURL: nil,
             createdAt: Date(),
             updatedAt: Date(),
             deletedAt: nil,
