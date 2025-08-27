@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import MediaPlayer
 
 class AudioViewModel: NSObject, ObservableObject {
     private var audioPlayer: AVAudioPlayer?
@@ -24,10 +25,43 @@ class AudioViewModel: NSObject, ObservableObject {
     
     private func setupAudioSession() {
         do {
-            try audioSession.setCategory(.playback, mode: .default)
+            try audioSession.setCategory(.playback, mode: .spokenAudio, options: [])
             try audioSession.setActive(true)
+            
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(handleInterruption),
+                name: AVAudioSession.interruptionNotification,
+                object: nil
+            )
+            
+            print("Audio session configured successfully")
         } catch {
             print("Failed to setup audio session: \(error)")
+        }
+    }
+    
+    @objc private func handleInterruption(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey]
+                as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+            return
+        }
+        
+        switch type {
+        case .began:
+            pauseAudio()
+        case .ended:
+            if let optionsValue =
+                userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) {
+                    resumeAudio()
+                }
+            }
+        @unknown default:
+            break
         }
     }
     
@@ -76,6 +110,16 @@ class AudioViewModel: NSObject, ObservableObject {
         }
     }
     
+    func pauseAudio() {
+        audioPlayer?.pause()
+        isPlaying = false
+    }
+    
+    func resumeAudio() {
+        audioPlayer?.play()
+        isPlaying = true
+    }
+    
     func stopAudio() {
         audioPlayer?.stop()
         isPlaying = false
@@ -85,6 +129,7 @@ class AudioViewModel: NSObject, ObservableObject {
     
     deinit {
         stopAudio()
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

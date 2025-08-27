@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import ActivityKit
 
 struct MapView: View {
     @StateObject private var patungViewModel = PatungViewModel()
@@ -15,6 +16,7 @@ struct MapView: View {
     @StateObject private var coreLocationViewModel = CoreLocationViewModel()
     @StateObject private var bookmarkPatungViewModel = BookmarkPatungViewModel()
     @StateObject private var audioViewModel: AudioViewModel = AudioViewModel()
+    @StateObject private var liveActivityViewModel = LiveActivityViewModel()
     
     @AppStorage("tourMode") var tourModeShowAgain: Bool = true
     
@@ -146,6 +148,7 @@ struct MapView: View {
             .onChange(of: tourModeState) { _, isEnabled in
                 if isEnabled {
                     coreLocationViewModel.startUdatingLocation()
+                    liveActivityViewModel.startTourActivity()
                 } else {
                     coreLocationViewModel.stopUpdatingLocation()
                     
@@ -154,6 +157,7 @@ struct MapView: View {
                         isPlayingTourAudio = false
                     }
                     
+                    liveActivityViewModel.endActivity()
                     currentTourPatung = nil
                     patungTourQueue.removeAll()
                     playedPatungs.removeAll()
@@ -441,9 +445,11 @@ struct MapView: View {
                 playedPatungs.insert(nextPatung.id)
                 
                 isPlayingTourAudio = true
+                liveActivityViewModel.updateActivity(patungName: nextPatung.name, isPlaying: true)
                 audioViewModel.playAudio(from: audioURL) {
                     DispatchQueue.main.async {
                         self.isPlayingTourAudio = false
+                        self.liveActivityViewModel.updateActivity(patungName: "Exploring...", isPlaying: false)
                         self.selectedPatung = nil
                         self.currentTourPatung = nil
                         self.searchSheet = true
