@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		3F2D1A3F2E4B1C97003D02E2 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F2D1A3E2E4B1C97003D02E2 /* Supabase */; };
+		9E5EFA652E5F1EB90014F81E /* arcaIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9E10E4962E4B114B00052770 /* Arca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arca.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = arcaIcon.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -62,6 +64,7 @@
 		9E10E48D2E4B114B00052770 = {
 			isa = PBXGroup;
 			children = (
+				9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */,
 				9E10E4982E4B114B00052770 /* Arca */,
 				9E10E4972E4B114B00052770 /* Products */,
 			);
@@ -143,6 +146,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E5EFA652E5F1EB90014F81E /* arcaIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,12 +291,12 @@
 			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Arca */;
 			baseConfigurationReferenceRelativePath = env.xcconfig;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = arcaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 3QGY9BFW95;
+				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Arca/Info.plist;
@@ -325,12 +329,12 @@
 			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Arca */;
 			baseConfigurationReferenceRelativePath = env.xcconfig;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = arcaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 3QGY9BFW95;
+				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Arca/Info.plist;
