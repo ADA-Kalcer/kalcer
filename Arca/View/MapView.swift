@@ -410,7 +410,7 @@ struct MapView: View {
                 self.currentTourPatung = nextPatung
                 self.selectedPatung = nextPatung
                 self.searchSheet = false
-                self.detailSelection = .medium
+                self.selection = .fraction(0.4)
             }
         } else {
             currentTourPatung = nextPatung
@@ -438,7 +438,7 @@ struct MapView: View {
             }
             
             DispatchQueue.main.async {
-                self.detailSelection = .medium
+                self.selection = .fraction(0.4)
             }
         }
     }
