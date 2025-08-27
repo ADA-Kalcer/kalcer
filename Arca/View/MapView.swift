@@ -33,6 +33,7 @@ struct MapView: View {
     @State private var patungTourQueue: [Patung] = []
     @State private var currentTourPatung: Patung? = nil
     @State private var isPlayingTourAudio = false
+    @State private var playedPatungs: Set<UUID> = []
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: -9, longitude: 115.1),
@@ -155,6 +156,7 @@ struct MapView: View {
                     
                     currentTourPatung = nil
                     patungTourQueue.removeAll()
+                    playedPatungs.removeAll()
                 }
             }
             .onChange(of: coreLocationViewModel.longitude) { _, _ in
@@ -383,13 +385,27 @@ struct MapView: View {
             let notCurrentlySelected = patung.id != selectedPatung?.id
             let notCurrentTour = patung.id != currentTourPatung?.id
             let notInQueue = !patungTourQueue.contains(where: { $0.id == patung.id })
+            let notAlreadyPlayed = !playedPatungs.contains(patung.id)
             
-            return isNearby && notCurrentlySelected && notCurrentTour && notInQueue
+            return isNearby && notCurrentlySelected && notCurrentTour && notInQueue && notAlreadyPlayed
         }
         
         for patung in nearbyPatungs {
             print("Adding patung to tour queue: \(patung.name)")
             patungTourQueue.append(patung)
+        }
+        
+        let patungsToRemoveFromPlayed = playedPatungs.filter { playedId in
+            guard let playedPatung = patungViewModel.patungs.first(where: { $0.id == playedId }),
+                  let lat = playedPatung.latitude, let lon = playedPatung.longitude else { return true }
+            let patungLocation = CLLocation(latitude: Double(lat), longitude: Double(lon))
+            let distance = userLocation.distance(from: patungLocation)
+            return distance > radiusInMeters
+        }
+        
+        for patungId in patungsToRemoveFromPlayed {
+            playedPatungs.remove(patungId)
+            print("Cleared played status for patung (user moved away)")
         }
         
         if currentTourPatung == nil && selectedPatung == nil {
@@ -422,6 +438,8 @@ struct MapView: View {
                     audioViewModel.stopAudio()
                 }
                 
+                playedPatungs.insert(nextPatung.id)
+                
                 isPlayingTourAudio = true
                 audioViewModel.playAudio(from: audioURL) {
                     DispatchQueue.main.async {
@@ -435,6 +453,8 @@ struct MapView: View {
                         }
                     }
                 }
+            } else {
+                playedPatungs.insert(nextPatung.id)
             }
             
             DispatchQueue.main.async {
