@@ -8,12 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F2D1A3F2E4B1C97003D02E2 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F2D1A3E2E4B1C97003D02E2 /* Supabase */; };
-		3F2D49632E5F26FC00D47707 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2D49612E5F26F800D47707 /* ActivityKit.framework */; };
 		3F2D497D2E5F275E00D47707 /* TourModeActivityWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3F2D496A2E5F275D00D47707 /* TourModeActivityWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		3F2D49892E5F29C400D47707 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2D496D2E5F275D00D47707 /* SwiftUI.framework */; };
-		3F2D498A2E5F29C400D47707 /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2D496D2E5F275D00D47707 /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3F2D498C2E5F29C600D47707 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2D496B2E5F275D00D47707 /* WidgetKit.framework */; };
-		3F2D498D2E5F29C600D47707 /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2D496B2E5F275D00D47707 /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9E5EFA652E5F1EB90014F81E /* arcaIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */; };
 /* End PBXBuildFile section */
 
@@ -55,8 +50,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3F2D498A2E5F29C400D47707 /* SwiftUI.framework in Embed Frameworks */,
-				3F2D498D2E5F29C600D47707 /* WidgetKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,10 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3F2D49612E5F26F800D47707 /* ActivityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActivityKit.framework; path = System/Library/Frameworks/ActivityKit.framework; sourceTree = SDKROOT; };
 		3F2D496A2E5F275D00D47707 /* TourModeActivityWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TourModeActivityWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		3F2D496B2E5F275D00D47707 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
-		3F2D496D2E5F275D00D47707 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		9E10E4962E4B114B00052770 /* Arca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arca.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = arcaIcon.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -125,8 +115,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F2D49892E5F29C400D47707 /* SwiftUI.framework in Frameworks */,
-				3F2D498C2E5F29C600D47707 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,7 +122,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F2D49632E5F26FC00D47707 /* ActivityKit.framework in Frameworks */,
 				3F2D1A3F2E4B1C97003D02E2 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,23 +129,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3F2D49602E5F26F800D47707 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3F2D49612E5F26F800D47707 /* ActivityKit.framework */,
-				3F2D496B2E5F275D00D47707 /* WidgetKit.framework */,
-				3F2D496D2E5F275D00D47707 /* SwiftUI.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		9E10E48D2E4B114B00052770 = {
 			isa = PBXGroup;
 			children = (
 				9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */,
 				9E10E4982E4B114B00052770 /* Arca */,
 				3F2D496F2E5F275D00D47707 /* TourModeActivityWidget */,
-				3F2D49602E5F26F800D47707 /* Frameworks */,
 				9E10E4972E4B114B00052770 /* Products */,
 			);
 			sourceTree = "<group>";
