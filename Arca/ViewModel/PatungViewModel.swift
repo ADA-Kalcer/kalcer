@@ -60,8 +60,6 @@ class PatungViewModel: ObservableObject {
                 .execute()
                 .value
             
-            print("PatungViewModel.getPatungs() patung list: \(patungs)")
-            
             DispatchQueue.main.async {
                 self.patungs = patungs
                 self.isLoading = false
