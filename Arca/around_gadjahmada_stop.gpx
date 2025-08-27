@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<gpx version="1.1" creator="gpxgenerator.com">
+<!-- Starting point-->
+<wpt lat="-8.658409879871767" lon="115.21049738524195">
+    <ele>25.99</ele>
+    <time>2025-08-27T10:15:00Z</time>
+</wpt>
+<!-- Ida Cokorda Pemecutan IX - Arrival-->
+<wpt lat="-8.658303814216161" lon="115.20981073973414">
+    <ele>22.98</ele>
+    <time>2025-08-27T10:15:11Z</time>
+</wpt>
+<!-- Ida Cokorda Pemecutan IX - Departure (15s later)-->
+<wpt lat="-8.65830281421616" lon="115.20981173973414">
+    <ele>22.98</ele>
+    <time>2025-08-27T10:15:26Z</time>
+</wpt>
+<!--Kawasan Heritage Gadjah Mada - Arrival-->
+<wpt lat="-8.65501576406369" lon="115.21052957175013">
+    <ele>25.53</ele>
+    <time>2025-08-27T10:16:06Z</time>
+</wpt>
+<!--Kawasan Heritage Gadjah Mada - Departure (15s later)-->
+<wpt lat="-8.65501476406369" lon="115.21053057175013">
+    <ele>25.53</ele>
+    <time>2025-08-27T10:16:21Z</time>
+</wpt>
+<!--Sang Kala Tri Semaya - Arrival-->
+<wpt lat="-8.655323357070111" lon="115.21237493155238">
+    <ele>20.54</ele>
+    <time>2025-08-27T10:16:36Z</time>
+</wpt>
+<!--Sang Kala Tri Semaya - Departure (15s later)-->
+<wpt lat="-8.65532235707011" lon="115.21237593155238">
+    <ele>20.54</ele>
+    <time>2025-08-27T10:16:51Z</time>
+</wpt>
+<!--Catur Muka - Arrival-->
+<wpt lat="-8.655996513668871" lon="115.2168720393979">
+    <ele>26.33</ele>
+    <time>2025-08-27T10:17:50Z</time>
+</wpt>
+<!--Catur Muka - Departure (15s later)-->
+<wpt lat="-8.65599551366887" lon="115.2168730393979">
+    <ele>26.33</ele>
+    <time>2025-08-27T10:18:05Z</time>
+</wpt>
+<!--Putar Balik-->
+<wpt lat="-8.65565101916465" lon="115.21495797281955">
+    <ele>24.42</ele>
+    <time>2025-08-27T10:18:21Z</time>
+</wpt>
+<!--Belokan Jalam Sumatra-->
+<wpt lat="-8.658090538877932" lon="115.21455027704928">
+    <ele>23.54</ele>
+    <time>2025-08-27T10:19:01Z</time>
+</wpt>
+<!--Pendeta Rsi - Arrival-->
+<wpt lat="-8.658779965495784" lon="115.2147863114426">
+    <ele>21.80</ele>
+    <time>2025-08-27T10:19:13Z</time>
+</wpt>
+<!--Pendeta Rsi - Departure (15s later)-->
+<wpt lat="-8.658778965495783" lon="115.2147873114426">
+    <ele>21.80</ele>
+    <time>2025-08-27T10:19:28Z</time>
+</wpt>
+<!--Titik Akhir-->
+<wpt lat="-8.658392151904664" lon="115.21059679219331">
+    <ele>26.06</ele>
+    <time>2025-08-27T10:20:21Z</time>
+</wpt>
+</gpx>
