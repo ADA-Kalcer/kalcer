@@ -29,7 +29,6 @@ struct MapView: View {
     @State private var afterDetailDismiss: Sheet = .search
     @State private var selectedPatung: Patung?
     @State private var selection: PresentationDetent = .fraction(0.4)
-    @State private var detailSelection: PresentationDetent = .medium
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: -9, longitude: 115.1),
@@ -49,7 +48,8 @@ struct MapView: View {
                                     bookmarkPatungViewModel: bookmarkPatungViewModel,
                                     patung: patung,
                                     selectedPatung: $selectedPatung,
-                                    searchSheet: $searchSheet
+                                    searchSheet: $searchSheet,
+                                    sheetDetent: $selection
                                 )
                             }
                         }
@@ -78,7 +78,7 @@ struct MapView: View {
                 //                    )
                 //                }
                 
-                if !patungViewModel.isLoading || (selectedPatung == nil && selection != .large) || (selectedPatung != nil && detailSelection != .large) {
+                if !patungViewModel.isLoading || (selectedPatung == nil && selection != .large) {
                     GeometryReader { geo in
                         HStack {
                             Spacer()
@@ -157,7 +157,7 @@ struct MapView: View {
         }
         .onChange(of: selectedPatung) { oldValue, newValue in
               if newValue != nil {
-                  detailSelection = .medium
+                  selection = .fraction(0.4)
               }
           }
         .sheet(item: $selectedPatung) { patung in
@@ -167,10 +167,9 @@ struct MapView: View {
                         patung: patung,
                         patungViewModel: patungViewModel,
                         bookmarkPatungViewModel: bookmarkPatungViewModel,
-                        sheetPresentation: $detailSelection,
                     )
                     
-                    if detailSelection != .height(80) {
+                    if selection != .height(80) {
                         VStack {
                             Spacer()
                             SecondarySheetComponent(
@@ -186,7 +185,7 @@ struct MapView: View {
                         Button {
                             selectedPatung = nil
                             DispatchQueue.main.async {
-                                detailSelection = .medium
+                                selection = .fraction(0.4)
                             }
                         } label: {
                             Image(systemName: "xmark")
@@ -196,7 +195,7 @@ struct MapView: View {
                 .onAppear {
                     searchSheet = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        detailSelection = .medium
+                        selection = .fraction(0.4)
                     }
                 }
                 .onDisappear {
@@ -217,11 +216,11 @@ struct MapView: View {
                     }
                 }
             }
-            .presentationDetents([.height(80), .medium, .large], selection: $detailSelection)
-            .presentationBackgroundInteraction(.enabled)
+            .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
+            .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.4)))
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
-            .presentationBackgroundInteraction(.enabled)
+            .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $recentSheet) {
             NavigationView {
