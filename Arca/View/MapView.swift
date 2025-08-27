@@ -14,6 +14,7 @@ struct MapView: View {
     @StateObject private var recentSearchViewModel = RecentSearchViewModel()
     @StateObject private var coreLocationViewModel = CoreLocationViewModel()
     @StateObject private var bookmarkPatungViewModel = BookmarkPatungViewModel()
+    @StateObject private var audioViewModel: AudioViewModel = AudioViewModel()
     
     @AppStorage("tourMode") var tourModeShowAgain: Bool = true
     
@@ -29,13 +30,17 @@ struct MapView: View {
     @State private var afterDetailDismiss: Sheet = .search
     @State private var selectedPatung: Patung?
     @State private var selection: PresentationDetent = .fraction(0.4)
-    @State private var detailSelection: PresentationDetent = .medium
+    @State private var patungTourQueue: [Patung] = []
+    @State private var currentTourPatung: Patung? = nil
+    @State private var isPlayingTourAudio = false
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: -9, longitude: 115.1),
             span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
         )
     )
+    
+    let radiusInMeters: CLLocationDistance = 50
     
     var body: some View {
         NavigationView {
@@ -49,13 +54,22 @@ struct MapView: View {
                                     bookmarkPatungViewModel: bookmarkPatungViewModel,
                                     patung: patung,
                                     selectedPatung: $selectedPatung,
-                                    searchSheet: $searchSheet
+                                    searchSheet: $searchSheet,
+                                    sheetDetent: $selection
                                 )
                             }
                         }
                     }
                     
                     UserAnnotation()
+                    
+                    // Enable to add user annotation radius
+//                    if let latitude = coreLocationViewModel.latitude,
+//                       let longitude = coreLocationViewModel.longitude {
+//                        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+//                        MapCircle(center: coordinate, radius: radiusInMeters)
+//                            .foregroundStyle(.blue.opacity(0.2))
+//                    }
                 }
                 .safeAreaInset(edge: .bottom) {
                     EmptyView()
@@ -78,7 +92,7 @@ struct MapView: View {
                 //                    )
                 //                }
                 
-                if !patungViewModel.isLoading || (selectedPatung == nil && selection != .large) || (selectedPatung != nil && detailSelection != .large) {
+                if !patungViewModel.isLoading || (selectedPatung == nil && selection != .large) {
                     GeometryReader { geo in
                         HStack {
                             Spacer()
@@ -128,6 +142,24 @@ struct MapView: View {
                 }
                 
             }
+            .onChange(of: tourModeState) { _, isEnabled in
+                if isEnabled {
+                    coreLocationViewModel.startUdatingLocation()
+                } else {
+                    coreLocationViewModel.stopUpdatingLocation()
+                    
+                    if isPlayingTourAudio {
+                        audioViewModel.stopAudio()
+                        isPlayingTourAudio = false
+                    }
+                    
+                    currentTourPatung = nil
+                    patungTourQueue.removeAll()
+                }
+            }
+            .onChange(of: coreLocationViewModel.longitude) { _, _ in
+                handleLocationUpdate()
+            }
         }
         .onAppear {
             Task {
@@ -157,7 +189,7 @@ struct MapView: View {
         }
         .onChange(of: selectedPatung) { oldValue, newValue in
               if newValue != nil {
-                  detailSelection = .medium
+                  selection = .fraction(0.4)
               }
           }
         .sheet(item: $selectedPatung) { patung in
@@ -167,10 +199,9 @@ struct MapView: View {
                         patung: patung,
                         patungViewModel: patungViewModel,
                         bookmarkPatungViewModel: bookmarkPatungViewModel,
-                        sheetPresentation: $detailSelection,
                     )
                     
-                    if detailSelection != .height(80) {
+                    if selection != .height(80) {
                         VStack {
                             Spacer()
                             SecondarySheetComponent(
@@ -186,7 +217,7 @@ struct MapView: View {
                         Button {
                             selectedPatung = nil
                             DispatchQueue.main.async {
-                                detailSelection = .medium
+                                selection = .fraction(0.4)
                             }
                         } label: {
                             Image(systemName: "xmark")
@@ -196,10 +227,19 @@ struct MapView: View {
                 .onAppear {
                     searchSheet = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        detailSelection = .medium
+                        selection = .fraction(0.4)
                     }
                 }
                 .onDisappear {
+                    if let currentTour = currentTourPatung, currentTour.id == selectedPatung?.id {
+                        currentTourPatung = nil
+                        
+                        // Process next in queue after a delay
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self.processNextPatungInQueue()
+                        }
+                    }
+                    
                     switch afterDetailDismiss {
                     case .search:
                         searchSheet = true
@@ -217,11 +257,11 @@ struct MapView: View {
                     }
                 }
             }
-            .presentationDetents([.height(80), .medium, .large], selection: $detailSelection)
-            .presentationBackgroundInteraction(.enabled)
+            .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
+            .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.4)))
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
-            .presentationBackgroundInteraction(.enabled)
+            .interactiveDismissDisabled(true)
         }
         .sheet(isPresented: $recentSheet) {
             NavigationView {
@@ -290,6 +330,119 @@ struct MapView: View {
             .presentationBackgroundInteraction(.enabled)
         }
     }
+    
+    private func handleLocationUpdate() {
+        guard tourModeState,
+              let currentLatitude = coreLocationViewModel.latitude,
+              let currentLongitude = coreLocationViewModel.longitude else { return }
+        
+        print("User location: (lat: \(currentLatitude), long: \(currentLongitude))")
+        
+        let userLocation = CLLocation(latitude: currentLatitude, longitude: currentLongitude)
+        
+        if let currentTour = currentTourPatung {
+            let patungLocation = CLLocation(
+                latitude: Double(currentTour.latitude ?? 0),
+                longitude: Double(currentTour.longitude ?? 0)
+            )
+            
+            if userLocation.distance(from: patungLocation) > radiusInMeters {
+                print("User moved away from tour patung: \(currentTour.name)")
+                
+                // Close current detail sheet and move to next in queue
+                selectedPatung = nil
+                currentTourPatung = nil
+                searchSheet = true
+                
+            }
+        }
+        
+        if let selected = selectedPatung, currentTourPatung == nil {
+            let patungLatitude = selected.latitude
+            let patungLongitude = selected.longitude
+            let patungLocation = CLLocation(latitude: Double(patungLatitude ?? 0), longitude: Double(patungLongitude ?? 0))
+            
+            if userLocation.distance(from: patungLocation) > radiusInMeters {
+                print("User moved away from selected patung")
+                
+                self.selectedPatung = nil
+                self.currentTourPatung = nil
+                self.searchSheet = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.processNextPatungInQueue()
+                }
+            }
+        }
+        
+        let nearbyPatungs = patungViewModel.patungs.filter { patung in
+            guard let lat = patung.latitude, let lon = patung.longitude else { return false }
+            let patungLocation = CLLocation(latitude: Double(lat), longitude: Double(lon))
+            
+            let isNearby = userLocation.distance(from: patungLocation) <= radiusInMeters
+            let notCurrentlySelected = patung.id != selectedPatung?.id
+            let notCurrentTour = patung.id != currentTourPatung?.id
+            let notInQueue = !patungTourQueue.contains(where: { $0.id == patung.id })
+            
+            return isNearby && notCurrentlySelected && notCurrentTour && notInQueue
+        }
+        
+        for patung in nearbyPatungs {
+            print("Adding patung to tour queue: \(patung.name)")
+            patungTourQueue.append(patung)
+        }
+        
+        if currentTourPatung == nil && selectedPatung == nil {
+            processNextPatungInQueue()
+        }
+    }
+    
+    private func processNextPatungInQueue() {
+        guard !patungTourQueue.isEmpty else { return }
+        
+        let nextPatung = patungTourQueue.removeFirst()
+        print("Auto-presenting patung from queue: \(nextPatung.name)")
+        
+        // Set as current tour patung and present detail sheet
+        if selectedPatung != nil {
+            selectedPatung = nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.currentTourPatung = nextPatung
+                self.selectedPatung = nextPatung
+                self.searchSheet = false
+                self.selection = .fraction(0.4)
+            }
+        } else {
+            currentTourPatung = nextPatung
+            selectedPatung = nextPatung
+            searchSheet = false
+            
+            if let audioURL = nextPatung.audioURL, !audioURL.isEmpty {
+                if isPlayingTourAudio {
+                    audioViewModel.stopAudio()
+                }
+                
+                isPlayingTourAudio = true
+                audioViewModel.playAudio(from: audioURL) {
+                    DispatchQueue.main.async {
+                        self.isPlayingTourAudio = false
+                        self.selectedPatung = nil
+                        self.currentTourPatung = nil
+                        self.searchSheet = true
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.processNextPatungInQueue()
+                        }
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.selection = .fraction(0.4)
+            }
+        }
+    }
+
 }
 
 #Preview {

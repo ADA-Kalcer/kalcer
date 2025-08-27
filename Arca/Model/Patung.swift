@@ -27,6 +27,7 @@ struct Patung: Codable, Identifiable, Hashable {
     let artist: String?
     let material: String?
     let category1: String
+    let audioURL: String?
     let createdAt: Date
     let updatedAt: Date
     let deletedAt: Date?
@@ -43,6 +44,8 @@ struct Patung: Codable, Identifiable, Hashable {
         case updatedAt = "updated_at"
         case deletedAt = "deleted_at"
         case media = "patung_media"
+        case audioURL = "audio_url"
+        
         
     }
     

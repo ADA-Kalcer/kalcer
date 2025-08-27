@@ -13,6 +13,7 @@ struct MapAnnotationComponent: View {
     var patung: Patung
     @Binding var selectedPatung: Patung?
     @Binding var searchSheet: Bool
+    @Binding var sheetDetent: PresentationDetent
     
     var body: some View {
         let isSelected = patung.id == selectedPatung?.id
@@ -60,6 +61,7 @@ struct MapAnnotationComponent: View {
                 recentPatungViewModel.addRecentPatung(patung)
                 searchSheet = false
             }
+            sheetDetent = .fraction(0.4)
         }
         .scaleEffect(isSelected ? 1.5 : 1.0)
         .animation(.spring(response: 0.4, dampingFraction: 0.6,
@@ -110,6 +112,7 @@ struct MapAnnotationComponent: View {
             artist: "Sample Artist",
             material: "Bronze",
             category1: "monumental",
+            audioURL: nil,
             createdAt: Date(),
             updatedAt: Date(),
             deletedAt: nil,
@@ -150,6 +153,7 @@ struct MapAnnotationComponent: View {
                 artist: "Sample Artist",
                 material: "Bronze",
                 category1: "monumental",
+                audioURL: nil,
                 createdAt: Date(),
                 updatedAt: Date(),
                 deletedAt: nil,
@@ -175,6 +179,7 @@ struct MapAnnotationComponent: View {
                 ]
             )
         ),
-        searchSheet: .constant(true)
+        searchSheet: .constant(true),
+        sheetDetent: .constant(.medium)
     )
 }

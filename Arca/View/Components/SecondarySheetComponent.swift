@@ -83,6 +83,7 @@ struct SecondarySheetComponent: View {
             artist: "Sample Artist",
             material: "Bronze",
             category1: "monumental",
+            audioURL: nil,
             createdAt: Date(),
             updatedAt: Date(),
             deletedAt: nil,

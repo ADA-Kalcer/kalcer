@@ -18,17 +18,29 @@
 		3FAAD7282E4B26DB00DEEE4A /* Exceptions for "Arca" folder in "Arca" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				around_gadjahmada_stop.gpx,
 				Info.plist,
 			);
 			target = 9E10E4952E4B114B00052770 /* Arca */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		3FFB68BE2E5F12D6002D3F04 /* Exceptions for "Arca" folder in "Compile Sources" phase from "Arca" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 9E10E4922E4B114B00052770 /* Sources */;
+			membershipExceptions = (
+				around_gadjahmada_stop.gpx,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9E10E4982E4B114B00052770 /* Arca */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				3FAAD7282E4B26DB00DEEE4A /* Exceptions for "Arca" folder in "Arca" target */,
+				3FFB68BE2E5F12D6002D3F04 /* Exceptions for "Arca" folder in "Compile Sources" phase from "Arca" target */,
 			);
 			path = Arca;
 			sourceTree = "<group>";
@@ -280,7 +292,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
+				DEVELOPMENT_TEAM = 3QGY9BFW95;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Arca/Info.plist;
@@ -318,7 +330,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
+				DEVELOPMENT_TEAM = 3QGY9BFW95;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Arca/Info.plist;
