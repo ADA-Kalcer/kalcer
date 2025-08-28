@@ -50,7 +50,7 @@ struct MapComponent: View {
                         latitude: egg1Region.center.latitude,
                         longitude: egg1Region.center.longitude
                     )) {
-                        Image("leftDragon")
+                        Image("antaboga")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 100)
@@ -62,10 +62,10 @@ struct MapComponent: View {
                         latitude: egg2Region.center.latitude,
                         longitude: egg2Region.center.longitude
                     )) {
-                        Image("rightDragon")
+                        Image("gajahMina")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 100)
+                            .frame(width: 150)
                     }
                 }
             }
