@@ -11,7 +11,7 @@ struct ProgressModalComponent: View {
     var body: some View {
         ProgressView("Loading patungs...")
             .padding()
-            .glassEffect(in: .rect(cornerRadius: 16))
+            .glass()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.black.opacity(0.7))
     }

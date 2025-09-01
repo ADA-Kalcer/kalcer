@@ -98,7 +98,7 @@ struct PatungDetailView: View {
             
         }
         .navigationTitle(patung.name)
-        .navigationSubtitle(patung.category1 == "monumental" ? "Monumental" : "Ritual")
+        .navSubtitle(patung.category1 == "monumental" ? "Monumental" : "Ritual")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             loadPatungMedia()
@@ -190,12 +190,12 @@ struct ButtonCard: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
-            .background(.secondary)
+            .background(.secondary.tertiary)
             .cornerRadius(20)
             .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
-        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 20))
+        .glassInteractiveRect()
         
         
     }

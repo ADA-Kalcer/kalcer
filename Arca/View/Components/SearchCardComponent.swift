@@ -123,7 +123,7 @@ struct SearchCardComponent: View {
         .frame(width: 175, height: 266)
         .background(Color.white)
         .cornerRadius(20)
-        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 20))
+        .glassInteractiveRect()
         .contentShape(Rectangle())
     }
 }

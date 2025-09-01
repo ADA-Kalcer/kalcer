@@ -28,11 +28,7 @@ struct SecondaryNavigationComponent: View {
                     .foregroundStyle(tourModeState ? .white : .arcaDark)
                     .padding()
             }
-            .glassEffect(
-                tourModeState ?
-                    .regular.tint(.arcaPrimary.opacity(0.8)).interactive() :
-                        .regular.interactive()
-            )
+            .glassTintState(tourModeState)
             
             Button {
                 if coreLocationViewModel.authorizationStatus == .notDetermined {
@@ -57,7 +53,7 @@ struct SecondaryNavigationComponent: View {
                     .foregroundStyle(locationState ? .arcaPrimary : .arcaDark)
                     .padding()
             }
-            .glassEffect(.regular.interactive())
+            .glassInteractive()
             .onChange(of: cameraPosition) { _, newValue in
                 if (coreLocationViewModel.latitude ?? 0) - (searchSheetDetent == .fraction(0.4) ? 0.004 : 0) != newValue.region?.center.latitude ||
                     coreLocationViewModel.longitude != newValue.region?.center.longitude

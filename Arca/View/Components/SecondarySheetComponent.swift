@@ -61,7 +61,7 @@ struct SecondarySheetComponent: View {
                 }
             }
         }
-        .glassEffect(.regular.interactive())
+        .glassInteractive()
     }
 }
 
