@@ -8,13 +8,68 @@
 
 /* Begin PBXBuildFile section */
 		3F2D1A3F2E4B1C97003D02E2 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F2D1A3E2E4B1C97003D02E2 /* Supabase */; };
+		3F2D497D2E5F275E00D47707 /* TourModeActivityWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3F2D496A2E5F275D00D47707 /* TourModeActivityWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9E5EFA652E5F1EB90014F81E /* arcaIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3F2D497B2E5F275E00D47707 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9E10E48E2E4B114B00052770 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F2D49692E5F275D00D47707;
+			remoteInfo = TourModeActivityWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3F2D49652E5F26FC00D47707 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F2D49822E5F275E00D47707 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3F2D497D2E5F275E00D47707 /* TourModeActivityWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F2D498B2E5F29C500D47707 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		3F2D496A2E5F275D00D47707 /* TourModeActivityWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TourModeActivityWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E10E4962E4B114B00052770 /* Arca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arca.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = arcaIcon.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3F2D49812E5F275E00D47707 /* Exceptions for "TourModeActivityWidget" folder in "TourModeActivityWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3F2D49692E5F275D00D47707 /* TourModeActivityWidgetExtension */;
+		};
 		3FAAD7282E4B26DB00DEEE4A /* Exceptions for "Arca" folder in "Arca" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -36,6 +91,14 @@
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3F2D496F2E5F275D00D47707 /* TourModeActivityWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3F2D49812E5F275E00D47707 /* Exceptions for "TourModeActivityWidget" folder in "TourModeActivityWidgetExtension" target */,
+			);
+			path = TourModeActivityWidget;
+			sourceTree = "<group>";
+		};
 		9E10E4982E4B114B00052770 /* Arca */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -48,6 +111,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3F2D49672E5F275D00D47707 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9E10E4932E4B114B00052770 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -62,7 +132,9 @@
 		9E10E48D2E4B114B00052770 = {
 			isa = PBXGroup;
 			children = (
+				9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */,
 				9E10E4982E4B114B00052770 /* Arca */,
+				3F2D496F2E5F275D00D47707 /* TourModeActivityWidget */,
 				9E10E4972E4B114B00052770 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				9E10E4962E4B114B00052770 /* Arca.app */,
+				3F2D496A2E5F275D00D47707 /* TourModeActivityWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,6 +151,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3F2D49692E5F275D00D47707 /* TourModeActivityWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F2D497E2E5F275E00D47707 /* Build configuration list for PBXNativeTarget "TourModeActivityWidgetExtension" */;
+			buildPhases = (
+				3F2D49662E5F275D00D47707 /* Sources */,
+				3F2D49672E5F275D00D47707 /* Frameworks */,
+				3F2D49682E5F275D00D47707 /* Resources */,
+				3F2D498B2E5F29C500D47707 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3F2D496F2E5F275D00D47707 /* TourModeActivityWidget */,
+			);
+			name = TourModeActivityWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = TourModeActivityWidgetExtension;
+			productReference = 3F2D496A2E5F275D00D47707 /* TourModeActivityWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		9E10E4952E4B114B00052770 /* Arca */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9E10E4A42E4B114C00052770 /* Build configuration list for PBXNativeTarget "Arca" */;
@@ -85,10 +181,13 @@
 				9E10E4922E4B114B00052770 /* Sources */,
 				9E10E4932E4B114B00052770 /* Frameworks */,
 				9E10E4942E4B114B00052770 /* Resources */,
+				3F2D49652E5F26FC00D47707 /* Embed Frameworks */,
+				3F2D49822E5F275E00D47707 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3F2D497C2E5F275E00D47707 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				9E10E4982E4B114B00052770 /* Arca */,
@@ -108,9 +207,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					3F2D49692E5F275D00D47707 = {
+						CreatedOnToolsVersion = 26.0;
+					};
 					9E10E4952E4B114B00052770 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -134,21 +236,37 @@
 			projectRoot = "";
 			targets = (
 				9E10E4952E4B114B00052770 /* Arca */,
+				3F2D49692E5F275D00D47707 /* TourModeActivityWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		9E10E4942E4B114B00052770 /* Resources */ = {
+		3F2D49682E5F275D00D47707 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9E10E4942E4B114B00052770 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E5EFA652E5F1EB90014F81E /* arcaIcon.icon in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3F2D49662E5F275D00D47707 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9E10E4922E4B114B00052770 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -158,7 +276,79 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3F2D497C2E5F275E00D47707 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F2D49692E5F275D00D47707 /* TourModeActivityWidgetExtension */;
+			targetProxy = 3F2D497B2E5F275E00D47707 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		3F2D497F2E5F275E00D47707 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TourModeActivityWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TourModeActivityWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tudemaha.arca.tourmode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3F2D49802E5F275E00D47707 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TourModeActivityWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TourModeActivityWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tudemaha.arca.tourmode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		9E10E4A22E4B114C00052770 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Arca */;
@@ -287,12 +477,12 @@
 			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Arca */;
 			baseConfigurationReferenceRelativePath = env.xcconfig;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = arcaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 3QGY9BFW95;
+				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Arca/Info.plist;
@@ -325,12 +515,12 @@
 			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Arca */;
 			baseConfigurationReferenceRelativePath = env.xcconfig;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = arcaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 3QGY9BFW95;
+				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Arca/Info.plist;
@@ -361,6 +551,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3F2D497E2E5F275E00D47707 /* Build configuration list for PBXNativeTarget "TourModeActivityWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F2D497F2E5F275E00D47707 /* Debug */,
+				3F2D49802E5F275E00D47707 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9E10E4912E4B114B00052770 /* Build configuration list for PBXProject "Arca" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

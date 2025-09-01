@@ -26,7 +26,7 @@ struct MapAnnotationComponent: View {
                 .fill(
                     annotationColor(isSelected: isSelected, isMonument: isMonument, isRitual: isRitual, isBookmark: isBookmark)
                 )
-                .stroke(Color.white, lineWidth: 3,)
+                .stroke(Color.white, lineWidth: 3)
             
             if isBookmark {
                 Image("bookmarkWhite")

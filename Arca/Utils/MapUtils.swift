@@ -16,4 +16,14 @@ struct MapUtils {
             span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         )
     }
+    
+    public static func coordinateInsideRegion(coordinate: CLLocationCoordinate2D, region: MKCoordinateRegion) -> Bool {
+        let latMin = region.center.latitude - region.span.latitudeDelta
+        let latMax = region.center.latitude + region.span.latitudeDelta
+        let longMin = region.center.longitude - region.span.longitudeDelta
+        let longMax = region.center.longitude + region.span.longitudeDelta
+        
+        return (coordinate.latitude >= latMin && coordinate.latitude <= latMax) &&
+        (coordinate.longitude >= longMin && coordinate.longitude <= longMax)
+    }
 }

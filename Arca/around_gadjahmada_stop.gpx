@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <gpx version="1.1" creator="gpxgenerator.com">
 <!-- Starting point-->
-<wpt lat="-8.658409879871767" lon="115.21049738524195">
+<wpt lat="-8.658632902329693" lon="115.21308740477787">
     <ele>25.99</ele>
-    <time>2025-08-27T10:15:00Z</time>
+    <time>2025-08-27T10:14:17Z</time>
 </wpt>
 <!-- Ida Cokorda Pemecutan IX - Arrival-->
 <wpt lat="-8.658303814216161" lon="115.20981073973414">
@@ -66,8 +66,8 @@
     <time>2025-08-27T10:19:28Z</time>
 </wpt>
 <!--Titik Akhir-->
-<wpt lat="-8.658392151904664" lon="115.21059679219331">
+<wpt lat="-8.658632902329693" lon="115.21308740477787">
     <ele>26.06</ele>
-    <time>2025-08-27T10:20:21Z</time>
+    <time>2025-08-27T10:19:56Z</time>
 </wpt>
 </gpx>
