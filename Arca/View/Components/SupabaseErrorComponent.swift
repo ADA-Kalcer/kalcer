@@ -44,7 +44,7 @@ struct SupabaseErrorComponent: View {
             searchSheet = false
         }
         .padding()
-        .glassEffect(in: .rect(cornerRadius: 16))
+        .glass()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.black.opacity(0.7))
     }

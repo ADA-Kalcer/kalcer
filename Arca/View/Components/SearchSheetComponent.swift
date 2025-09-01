@@ -56,7 +56,7 @@ struct SearchSheetComponent: View {
                     }
                     .padding(10)
                     .cornerRadius(30)
-                    .glassEffect(.regular.tint(.rgba(red: 127, green: 128, blue: 132, alpha: 0.2)).interactive())
+                    .glassWithRGBATint()
                     .onChange(of: isTextFieldFocused) { focused, _ in
                         if !focused {
                             sheetPresentation = .large
@@ -83,7 +83,7 @@ struct SearchSheetComponent: View {
                                 .padding(13)
                                 .clipShape(.circle)
                         }
-                        .glassEffect(.regular.tint(.rgba(red: 127, green: 128, blue: 132, alpha: 0.2)).interactive())
+                        .glassWithRGBATint()
                     }
                 }
                 .padding(.horizontal, 20)

@@ -29,6 +29,8 @@ struct MapComponent: View {
     @Binding var selection: PresentationDetent
     @Binding var searchSheet: Bool
     
+    var iosLiquid: Bool
+    
     var body: some View {
         Map(position: $position) {
             if !patungViewModel.isLoading {
@@ -82,7 +84,7 @@ struct MapComponent: View {
         }
         .safeAreaInset(edge: .bottom) {
             EmptyView()
-                .frame(height: 60)
+                .frame(height: iosLiquid ? 60 : 80)
         }
         .safeAreaInset(edge: .leading) {
             EmptyView()
@@ -163,6 +165,7 @@ struct MapComponent: View {
             )
         ),
         selection: .constant(.medium),
-        searchSheet: .constant(true)
+        searchSheet: .constant(true),
+        iosLiquid: true
     )
 }

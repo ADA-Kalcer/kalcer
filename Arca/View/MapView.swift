@@ -32,6 +32,7 @@ struct MapView: View {
     @State private var afterDetailDismiss: Sheet = .search
     @State private var selectedPatung: Patung?
     @State private var selection: PresentationDetent = .fraction(0.4)
+    @State private var presentationDetens: Set<PresentationDetent> = [.height(80), .fraction(0.4), .large]
     @State private var patungTourQueue: [Patung] = []
     @State private var currentTourPatung: Patung? = nil
     @State private var isPlayingTourAudio = false
@@ -43,7 +44,16 @@ struct MapView: View {
         )
     )
     
+    var iosLiquid = true
     let radiusInMeters: CLLocationDistance = 50
+    
+    init() {
+        if #available(iOS 26.0, *) {
+            iosLiquid = true
+        } else {
+            iosLiquid = false
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -55,7 +65,8 @@ struct MapView: View {
                     position: $position,
                     selectedPatung: $selectedPatung,
                     selection: $selection,
-                    searchSheet: $searchSheet
+                    searchSheet: $searchSheet,
+                    iosLiquid: iosLiquid
                 )
                 
                 if !patungViewModel.isLoading || (selectedPatung == nil && selection != .large) {
@@ -75,7 +86,12 @@ struct MapView: View {
                                     cameraPosition: $position
                                 )
                             }
-                            .padding(.bottom, geo.size.height * ( selection == .height(80) ? 0.12 : 0.46))
+                            .padding(
+                                .bottom,
+                                geo.size.height * (
+                                    selection == .height(80) ? (iosLiquid ? 0.12 : 0.14) : 0.46
+                                )
+                            )
                         }
                         .padding(.trailing, geo.size.width * 0.06)
                     }
@@ -129,6 +145,7 @@ struct MapView: View {
             .onChange(of: coreLocationViewModel.longitude) { _, _ in
                 handleLocationUpdate()
             }
+            .toolbar(.hidden)
         }
         .onAppear {
             Task {
@@ -150,7 +167,7 @@ struct MapView: View {
                 cameraPosition: $position,
                 bookmarkSheet: $bookmarkSheet
             )
-            .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
+            .presentationDetents(presentationDetens, selection: $selection)
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled)
@@ -226,7 +243,7 @@ struct MapView: View {
                     }
                 }
             }
-            .presentationDetents([.height(80), .fraction(0.4), .large], selection: $selection)
+            .presentationDetents(presentationDetens, selection: $selection)
             .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.4)))
             .presentationDragIndicator(.visible)
             .presentationBackground(.regularMaterial)
