@@ -1,13 +1,12 @@
 //
-//  TourModeActivityWidget.swift
-//  TourModeActivityWidget
+//  TourMode.swift
+//  TourMode
 //
-//  Created by Gede Pramananda Kusuma Wisesa on 27/08/25.
+//  Created by Tude Maha on 03/09/2025.
 //
 
 import WidgetKit
 import SwiftUI
-import ActivityKit
 
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
@@ -42,7 +41,7 @@ struct SimpleEntry: TimelineEntry {
     let configuration: ConfigurationAppIntent
 }
 
-struct TourModeActivityWidgetEntryView : View {
+struct TourModeEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
@@ -56,13 +55,12 @@ struct TourModeActivityWidgetEntryView : View {
     }
 }
 
-
-struct TourModeActivityWidget: Widget {
-    let kind: String = "TourModeActivityWidget"
+struct TourMode: Widget {
+    let kind: String = "TourMode"
 
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
-            TourModeActivityWidgetEntryView(entry: entry)
+            TourModeEntryView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
     }
@@ -83,7 +81,7 @@ extension ConfigurationAppIntent {
 }
 
 #Preview(as: .systemSmall) {
-    TourModeActivityWidget()
+    TourMode()
 } timeline: {
     SimpleEntry(date: .now, configuration: .smiley)
     SimpleEntry(date: .now, configuration: .starEyes)

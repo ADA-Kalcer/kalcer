@@ -184,7 +184,7 @@ struct MapView: View {
                     PatungDetailView(
                         patung: patung,
                         patungViewModel: patungViewModel,
-                        bookmarkPatungViewModel: bookmarkPatungViewModel,
+                        bookmarkPatungViewModel: bookmarkPatungViewModel
                     )
                     
                     if selection != .height(80) {
