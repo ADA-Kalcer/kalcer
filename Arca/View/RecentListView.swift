@@ -75,6 +75,6 @@ struct RecentListView: View {
                 center: CLLocationCoordinate2D(latitude: -8.6, longitude: 115.08),
                 span: MKCoordinateSpan(latitudeDelta: 1.2, longitudeDelta: 1.4)
             )
-        )),
+        ))
     )
 }

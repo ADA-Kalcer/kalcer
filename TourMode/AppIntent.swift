@@ -1,8 +1,8 @@
 //
 //  AppIntent.swift
-//  TourModeActivityWidget
+//  TourMode
 //
-//  Created by Gede Pramananda Kusuma Wisesa on 27/08/25.
+//  Created by Tude Maha on 03/09/2025.
 //
 
 import WidgetKit

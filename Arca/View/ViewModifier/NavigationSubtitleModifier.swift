@@ -13,7 +13,7 @@ struct NavigationSubtitleModifier: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
             content
-                .navigationSubtitle(navSubtitle)
+//                .navigationSubtitle(navSubtitle)
         } else {
             content
         }
