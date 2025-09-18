@@ -1,9 +1,5 @@
 # ``Arca``
 
-@Metadata {
-    @PageColor(green)
-}
-
 The self-guided app for statues information spread throughout Bali
 
 ## Overview
