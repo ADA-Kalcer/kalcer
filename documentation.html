@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Arca Documentation</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            }
+            .header {
+                background: #fff;
+                padding: 16px;
+                border-bottom: 1px solid #eee;
+                text-align: center;
+            }
+            .back-link {
+                color: #0452a5;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 14px;
+            }
+            .back-link:hover {
+                text-decoration: underline;
+                color: #000;
+            }
+            #docFrame {
+                width: 100%;
+                height: calc(100vh - 80px);
+                border: none;
+            }
+            .loading {
+                text-align: center;
+                padding: 50px;
+                color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <a href="./index.html" class="back-link"
+                >← Back to Privacy Policy</a
+            >
+        </div>
+
+        <div class="loading" id="loading">Loading documentation...</div>
+
+        <iframe
+            id="docFrame"
+            src="./docs/index.html"
+            onload="document.getElementById('loading').style.display='none';"
+            style="display: none"
+        >
+        </iframe>
+
+        <script>
+            document.getElementById("docFrame").onload = function () {
+                this.style.display = "block";
+                document.getElementById("loading").style.display = "none";
+            };
+        </script>
+    </body>
+</html>
