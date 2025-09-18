@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F2D1A3F2E4B1C97003D02E2 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F2D1A3E2E4B1C97003D02E2 /* Supabase */; };
+		3F4F40982E795DF0003115EE /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 3F4F40972E795DF0003115EE /* Documentation.docc */; };
 		9E5EFA652E5F1EB90014F81E /* arcaIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */; };
 		9EF936CD2E683D6200B9F265 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF936AB2E683BBE00B9F265 /* WidgetKit.framework */; };
 		9EF936CE2E683D6200B9F265 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF936AD2E683BBE00B9F265 /* SwiftUI.framework */; };
@@ -49,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F4F40972E795DF0003115EE /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		9E10E4962E4B114B00052770 /* Arca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arca.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = arcaIcon.icon; sourceTree = "<group>"; };
 		9EF936AB2E683BBE00B9F265 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -128,6 +130,7 @@
 		9E10E48D2E4B114B00052770 = {
 			isa = PBXGroup;
 			children = (
+				3F4F40972E795DF0003115EE /* Documentation.docc */,
 				9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */,
 				9E10E4982E4B114B00052770 /* Arca */,
 				9EF936CF2E683D6200B9F265 /* TourMode */,
@@ -269,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F4F40982E795DF0003115EE /* Documentation.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,7 +427,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
+				DEVELOPMENT_TEAM = 3QGY9BFW95;
+				DOCC_HOSTING_BASE_PATH = docs;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Arca/Info.plist;
@@ -461,7 +466,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
+				DEVELOPMENT_TEAM = 3QGY9BFW95;
+				DOCC_HOSTING_BASE_PATH = docs;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Arca/Info.plist;
@@ -496,7 +502,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
+				DEVELOPMENT_TEAM = 3QGY9BFW95;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TourMode/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TourMode;
@@ -524,7 +530,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HRYT2ZQSJ5;
+				DEVELOPMENT_TEAM = 3QGY9BFW95;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TourMode/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TourMode;
