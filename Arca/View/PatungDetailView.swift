@@ -259,6 +259,6 @@ struct DefaultCard: View {
             ]
         ),
         patungViewModel: PatungViewModel(),
-        bookmarkPatungViewModel: BookmarkPatungViewModel(),
+        bookmarkPatungViewModel: BookmarkPatungViewModel()
     )
 }
