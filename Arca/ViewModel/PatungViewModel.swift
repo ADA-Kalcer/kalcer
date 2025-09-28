@@ -16,6 +16,7 @@ enum Table {
     static let patungMaterial = "patung_material"
 }
 
+@MainActor
 class PatungViewModel: ObservableObject {
     @Published var patungs: [Patung] = []
     @Published var searchedPatungs: [Patung] = []

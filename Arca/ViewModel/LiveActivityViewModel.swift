@@ -9,6 +9,7 @@ import Foundation
 import ActivityKit
 import SwiftUI
 
+@MainActor
 class LiveActivityViewModel: ObservableObject {
     @Published var currentActivity: Activity<TourModeActivityWidgetAttributes>?
     

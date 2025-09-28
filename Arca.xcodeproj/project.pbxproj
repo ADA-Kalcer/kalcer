@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F2D1A3F2E4B1C97003D02E2 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F2D1A3E2E4B1C97003D02E2 /* Supabase */; };
-		9E5EFA652E5F1EB90014F81E /* arcaIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */; };
+		9E5EFA652E5F1EB90014F81E /* ArcaIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9E5EFA642E5F1EB90014F81E /* ArcaIcon.icon */; };
 		9EF936CD2E683D6200B9F265 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF936AB2E683BBE00B9F265 /* WidgetKit.framework */; };
 		9EF936CE2E683D6200B9F265 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF936AD2E683BBE00B9F265 /* SwiftUI.framework */; };
 		9EF936DD2E683D6300B9F265 /* TourModeExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9EF936CC2E683D6200B9F265 /* TourModeExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -50,7 +50,7 @@
 
 /* Begin PBXFileReference section */
 		9E10E4962E4B114B00052770 /* Arca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arca.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = arcaIcon.icon; sourceTree = "<group>"; };
+		9E5EFA642E5F1EB90014F81E /* ArcaIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = ArcaIcon.icon; sourceTree = "<group>"; };
 		9EF936AB2E683BBE00B9F265 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9EF936AD2E683BBE00B9F265 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		9EF936CC2E683D6200B9F265 /* TourModeExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TourModeExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,7 +128,7 @@
 		9E10E48D2E4B114B00052770 = {
 			isa = PBXGroup;
 			children = (
-				9E5EFA642E5F1EB90014F81E /* arcaIcon.icon */,
+				9E5EFA642E5F1EB90014F81E /* ArcaIcon.icon */,
 				9E10E4982E4B114B00052770 /* Arca */,
 				9EF936CF2E683D6200B9F265 /* TourMode */,
 				9EF936AA2E683BBE00B9F265 /* Frameworks */,
@@ -213,7 +213,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					9E10E4952E4B114B00052770 = {
 						CreatedOnToolsVersion = 16.2;
@@ -251,7 +251,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9E5EFA652E5F1EB90014F81E /* arcaIcon.icon in Resources */,
+				9E5EFA652E5F1EB90014F81E /* ArcaIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +418,7 @@
 			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Arca */;
 			baseConfigurationReferenceRelativePath = env.xcconfig;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = ArcaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
@@ -429,9 +429,10 @@
 				INFOPLIST_FILE = Arca/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Arca;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location used to determine your current position.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to show your position on the map, get distance to nearby statues, and determine which audio of statue to play.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location used to determine your current position.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location used to determine your current position.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to show your position on the map, get distance to nearby statues, and determine which audio of statue to play.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -456,7 +457,7 @@
 			baseConfigurationReferenceAnchor = 9E10E4982E4B114B00052770 /* Arca */;
 			baseConfigurationReferenceRelativePath = env.xcconfig;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = ArcaIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
@@ -467,9 +468,10 @@
 				INFOPLIST_FILE = Arca/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Arca;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location used to determine your current position.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to show your position on the map, get distance to nearby statues, and determine which audio of statue to play.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location used to determine your current position.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location used to determine your current position.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to show your position on the map, get distance to nearby statues, and determine which audio of statue to play.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class RecentSearchViewModel: ObservableObject {
     @Published var recentSearch: [Patung] = []
     @Published var isLoading = false

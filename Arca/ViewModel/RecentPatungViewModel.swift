@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class RecentPatungViewModel: ObservableObject {
     @Published var recentPatungs: [Patung] = []
     @Published var isLoading = false

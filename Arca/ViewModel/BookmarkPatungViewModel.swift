@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class BookmarkPatungViewModel: ObservableObject {
     @Published var bookmarkPatungs: [Patung] = []
     @Published var isLoading = false

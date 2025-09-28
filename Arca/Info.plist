@@ -21,7 +21,11 @@
 		<string>fetch</string>
 		<string>audio</string>
 	</array>
-	<key>NSSupportsLiveActivities</key>
-	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Your location is used to show your position on the map, get distance to nearby statues, and determine which audio of statue to play.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is used to show your position on the map, get distance to nearby statues, and determine which audio of statue to play.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is used to show your position on the map, get distance to nearby statues, and determine which audio of statue to play.</string>
 </dict>
 </plist>
